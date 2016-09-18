@@ -1,0 +1,41 @@
+{
+    "name": "steffenbrand/curr-curr",
+    "description": "Delivers current exchange rates for EUR provided by the ECB under https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml as PHP objects.",
+    "keywords": [
+        "currency",
+        "ezb",
+        "ecb",
+        "exchange rates"
+    ],
+    "homepage": "https://github.com/steffenbrand/curr-curr",
+    "license": "The Unlicense",
+    "type": "library",
+    "version": "1.0.0",
+    "authors": [
+        {
+            "name": "Steffen Brand",
+            "email": "s.brand@steffenbrand.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "php": ">=7.0",
+        "guzzlehttp/guzzle": "^6.2"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "4.8"
+    },
+    "autoload": {
+        "psr-4": {
+            "SteffenBrand\\CurrCurr\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "SteffenBrand\\CurrCurr\\Test\\": "test/"
+        }
+    },
+    "config": {
+        "bin-dir": "bin"
+    }
+}
