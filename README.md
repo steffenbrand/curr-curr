@@ -1,11 +1,13 @@
-# CurrCurr - Current Currency (Rates)
-![alt tag](https://travis-ci.org/steffenbrand/curr-curr.svg?branch=master)
-![alt tag](https://codecov.io/github/steffenbrand/curr-curr/coverage.svg)
+# CurrCurr - Current Currency (Exchange Rates)
+![Build](https://travis-ci.org/steffenbrand/curr-curr.svg?branch=master)
+![Coverage](https://codecov.io/github/steffenbrand/curr-curr/coverage.svg)
 [![Latest Stable Version](https://poser.pugx.org/steffenbrand/curr-curr/version)](https://packagist.org/packages/steffenbrand/curr-curr)
 [![Latest Unstable Version](https://poser.pugx.org/steffenbrand/curr-curr/v/unstable)](//packagist.org/packages/steffenbrand/curr-curr)
 [![Total Downloads](https://poser.pugx.org/steffenbrand/curr-curr/downloads)](https://packagist.org/packages/steffenbrand/curr-curr)
 [![License](https://poser.pugx.org/steffenbrand/curr-curr/license)](https://packagist.org/packages/steffenbrand/curr-curr)
 [![composer.lock available](https://poser.pugx.org/steffenbrand/curr-curr/composerlock)](https://packagist.org/packages/steffenbrand/curr-curr)
+
+![CurrCurr Logo](https://github.com/steffenbrand/curr-curr/blob/master/curr-curr.jpg)
 
 Delivers current exchange rates for EUR provided by the ECB under https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml as PHP objects.
 
@@ -31,11 +33,11 @@ try {
     $exchangeRate->getCurrency();
     $exchangeRate->getRate();
 } catch (ExchangeRatesRequestFailedException $e) {
-    // this might fail, since we rely on a webservice
+    // webservice might not be present
 } catch (ExchangeRatesMappingFailedException $e) {
-    // this might fail, since the webservice might change
+    // webservice might not deliver what we expect
 } catch (CurrencyNotSupportedException $e) {
-    // you might request an exchange rate, that is not provided
+    // requested currency might not be provided
 }
 ```
 
@@ -56,8 +58,8 @@ try {
         $exchangeRate->getRate();
     }
 } catch (ExchangeRatesRequestFailedException $e) {
-    // this might fail, since we rely on a webservice
+    // webservice might not be present
 } catch (ExchangeRatesMappingFailedException $e) {
-    // this might fail, since the webservice might change
+    // webservice might not deliver what we expect
 }
 ```
