@@ -7,5 +7,8 @@ before_script:
     - composer self-update
     - composer install --dev --no-interaction --prefer-source
 
+script:
+    - vendor/bin/phpunit --coverage-clover=coverage.xml
+
 after_success:
   - bash <(curl -s https://codecov.io/bash)
