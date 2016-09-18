@@ -3,6 +3,9 @@
 
 Delivers current exchange rates for EUR provided by the ECB under https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml as PHP objects.
 
+* [CurrCurr on Packagist](https://packagist.org/packages/steffenbrand/curr-curr)
+* [CurrCurr on GitHub](https://github.com/steffenbrand/curr-curr)
+
 ## How to install
 
 ```

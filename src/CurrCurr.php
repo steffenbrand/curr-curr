@@ -20,7 +20,7 @@ class CurrCurr
      * CurrCurr constructor.
      * @param string $exchangeRatesUrl The url of the ezb exchange rates service
      */
-    public function __construct(string $exchangeRatesUrl = EzbClient::DEFAULT_EXCHANGE_RATES_URL)
+    public function __construct(string $exchangeRatesUrl = EcbClient::DEFAULT_EXCHANGE_RATES_URL)
     {
         $this->ecbClient = new EcbClient($exchangeRatesUrl);
     }
