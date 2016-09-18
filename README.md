@@ -1,4 +1,4 @@
-# CurrCurr
+# CurrCurr - Current Currency (Rates)
 ![alt tag](https://travis-ci.org/steffenbrand/ezb-exchange-rates.svg?branch=master)
 
 Delivers current exchange rates for EUR provided by the ECB under https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml as PHP objects.
