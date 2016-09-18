@@ -1,6 +1,6 @@
 # CurrCurr - Current Currency (Exchange Rates)
-![Build](https://travis-ci.org/steffenbrand/curr-curr.svg?branch=master)
-![Coverage](https://codecov.io/github/steffenbrand/curr-curr/coverage.svg)
+[![Build](https://travis-ci.org/steffenbrand/curr-curr.svg?branch=master)](https://travis-ci.org/steffenbrand/curr-curr)
+[![Coverage](https://codecov.io/github/steffenbrand/curr-curr/coverage.svg)](https://codecov.io/gh/steffenbrand/curr-curr)
 [![Latest Stable Version](https://poser.pugx.org/steffenbrand/curr-curr/version)](https://packagist.org/packages/steffenbrand/curr-curr)
 [![Latest Unstable Version](https://poser.pugx.org/steffenbrand/curr-curr/v/unstable)](//packagist.org/packages/steffenbrand/curr-curr)
 [![Total Downloads](https://poser.pugx.org/steffenbrand/curr-curr/downloads)](https://packagist.org/packages/steffenbrand/curr-curr)
