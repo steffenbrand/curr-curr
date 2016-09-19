@@ -4,8 +4,8 @@
 [![Latest Stable Version](https://poser.pugx.org/steffenbrand/curr-curr/version)](https://packagist.org/packages/steffenbrand/curr-curr)
 [![Latest Unstable Version](https://poser.pugx.org/steffenbrand/curr-curr/v/unstable)](//packagist.org/packages/steffenbrand/curr-curr)
 [![Total Downloads](https://poser.pugx.org/steffenbrand/curr-curr/downloads)](https://packagist.org/packages/steffenbrand/curr-curr)
-[![License](https://poser.pugx.org/steffenbrand/curr-curr/license)](https://packagist.org/packages/steffenbrand/curr-curr)
-[![composer.lock available](https://poser.pugx.org/steffenbrand/curr-curr/composerlock)](https://packagist.org/packages/steffenbrand/curr-curr)
+[![License](https://poser.pugx.org/steffenbrand/curr-curr/license)](https://github.com/steffenbrand/curr-curr/blob/master/LICENSE.md)
+[![composer.lock available](https://poser.pugx.org/steffenbrand/curr-curr/composerlock)](https://github.com/steffenbrand/curr-curr/blob/master/composer.lock)
 
 ![CurrCurr Logo](https://github.com/steffenbrand/curr-curr/blob/master/curr-curr.jpg)
 
