@@ -52,7 +52,7 @@ class CurrCurrIntegrationTest extends PHPUnit_Framework_TestCase
 
     /**
      * @expectedException SteffenBrand\CurrCurr\Exception\ExchangeRatesRequestFailedException
-     * @expectedExceptionMessage Request for EZBs exchange rates failed.
+     * @expectedExceptionMessage Request for ECBs exchange rates failed.
      */
     public function testGetExchangeRatesThrowsExchangeRatesRequestFailedException()
     {
