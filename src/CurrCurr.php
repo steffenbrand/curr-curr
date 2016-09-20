@@ -48,7 +48,7 @@ class CurrCurr
         $exchangeRates = $this->getExchangeRates();
 
         if (in_array($currencyAbbr, Currency::ALLOWED_CURRENCIES) === false
-        &&  array_key_exists($currencyAbbr, $exchangeRates) === true) {
+        &&  array_key_exists($currencyAbbr, $exchangeRates) === false) {
             throw new CurrencyNotSupportedException();
         }
 
