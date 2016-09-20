@@ -44,10 +44,7 @@ class ExchangeRatesMapper implements MapperInterface
                         );
                     }
 
-                    // check if exchange rates were actually mapped
-                    if (empty($exchangeRates) === false) {
-                        return $exchangeRates;
-                    }
+                    return $exchangeRates;
                 }
             }
         }
