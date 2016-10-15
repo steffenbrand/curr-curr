@@ -4,7 +4,6 @@ namespace SteffenBrand\CurrCurr;
 
 use Exception;
 use GuzzleHttp\Client;
-use SteffenBrand\CurrCurr\Exception\ExchangeRatesMappingFailedException;
 use SteffenBrand\CurrCurr\Exception\ExchangeRatesRequestFailedException;
 use SteffenBrand\CurrCurr\Mapper\ExchangeRatesMapper;
 use SteffenBrand\CurrCurr\Model\ExchangeRate;
@@ -42,7 +41,7 @@ class EcbClient
     }
 
     /**
-     * @throws ExchangeRatesMappingFailedException|ExchangeRatesRequestFailedException
+     * @throws ExchangeRatesRequestFailedException
      * @return ExchangeRate[]
      */
     public function getExchangeRates(): array
