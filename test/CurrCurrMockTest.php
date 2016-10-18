@@ -4,25 +4,25 @@ namespace SteffenBrand\CurrCurr\Test;
 
 use DateTime;
 use PHPUnit_Framework_TestCase;
-use SteffenBrand\CurrCurr\Client\EcbClient;
 use SteffenBrand\CurrCurr\CurrCurr;
 use SteffenBrand\CurrCurr\Model\Currency;
 use SteffenBrand\CurrCurr\Model\ExchangeRate;
+use SteffenBrand\CurrCurr\Test\Client\EcbClientMock;
 
 /**
  * @runTestsInSeparateProcesses
  */
-class CurrCurrIntegrationTest extends PHPUnit_Framework_TestCase
+class CurrCurrMockTest extends PHPUnit_Framework_TestCase
 {
 
     public function testIsInstantiable()
     {
-        $this->assertInstanceOf(CurrCurr::class, $this->getInstance());
+        $this->assertInstanceOf(CurrCurr::class, $this->getInstance('ValidResponse'));
     }
 
     public function testGetExchangeRates()
     {
-        $cc = $this->getInstance();
+        $cc = $this->getInstance('ValidResponse');
         $exchangeRates = $cc->getExchangeRates();
 
         $this->assertNotNull($exchangeRates, 'exchange rates must not be null');
@@ -33,7 +33,7 @@ class CurrCurrIntegrationTest extends PHPUnit_Framework_TestCase
 
     public function testGetExchangeRateByCurrency()
     {
-        $cc = $this->getInstance();
+        $cc = $this->getInstance('ValidResponse');
         $exchangeRate = $cc->getExchangeRateByCurrency(Currency::USD);
 
         $this->assertNotNull($exchangeRate, 'exchange rates must not be null');
@@ -47,42 +47,39 @@ class CurrCurrIntegrationTest extends PHPUnit_Framework_TestCase
      * @expectedException SteffenBrand\CurrCurr\Exception\CurrencyNotSupportedException
      * @expectedExceptionMessage The currency you are requesting the exchange rates for is not supported.
      */
-    public function testGetExchangeRateByCurrencyThrowsCurrencyNotSupportedException()
+    public function testSomeStringThrowsCurrencyNotSupportedException()
     {
-        $cc = $this->getInstance();
+        $cc = $this->getInstance('ValidResponse');
         $cc->getExchangeRateByCurrency('SOMESTRING');
     }
 
     /**
-     * @expectedException SteffenBrand\CurrCurr\Exception\ExchangeRatesRequestFailedException
-     * @expectedExceptionMessage Request for ECBs exchange rates failed.
+     * @expectedException SteffenBrand\CurrCurr\Exception\CurrencyNotSupportedException
+     * @expectedExceptionMessage The currency you are requesting the exchange rates for is not supported.
      */
-    public function testGetExchangeRatesThrowsExchangeRatesRequestFailedException()
+    public function testMissingUsdThrowsCurrencyNotSupportedException()
     {
-        $cc = $this->getInstance('http://www.sb-webworks.de/not-found.xml');
-        $cc->getExchangeRates();
+        $cc = $this->getInstance('UsdMissingResponse');
+        $cc->getExchangeRateByCurrency(Currency::USD);
     }
 
     /**
      * @expectedException SteffenBrand\CurrCurr\Exception\ExchangeRatesMappingFailedException
      * @expectedExceptionMessage Could not successfully parse and map exchange rates.
      */
-    public function testGetExchangeRatesThrowsExchangeRatesMappingFailedException()
+    public function testMissingDateThrowsExchangeRatesMappingFailedException()
     {
-        $cc = $this->getInstance('https://www.google.de');
+        $cc = $this->getInstance('DateMissingResponse');
         $cc->getExchangeRates();
     }
 
     /**
-     * @param string $exchangeRatesUrl
+     * @param string $expectedResponse
      * @return CurrCurr
      */
-    private function getInstance(string $exchangeRatesUrl = null): CurrCurr
+    private function getInstance(string $expectedResponse): CurrCurr
     {
-        if (null === $exchangeRatesUrl) {
-            return new CurrCurr();
-        }
-        return new CurrCurr(new EcbClient($exchangeRatesUrl));
+        return new CurrCurr(new EcbClientMock($expectedResponse));
     }
 
 }

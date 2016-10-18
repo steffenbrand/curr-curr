@@ -1,6 +1,6 @@
 <?php
 
-namespace SteffenBrand\CurrCurr;
+namespace SteffenBrand\CurrCurr\Client;
 
 use Exception;
 use GuzzleHttp\Client;
@@ -8,18 +8,8 @@ use SteffenBrand\CurrCurr\Exception\ExchangeRatesRequestFailedException;
 use SteffenBrand\CurrCurr\Mapper\ExchangeRatesMapper;
 use SteffenBrand\CurrCurr\Model\ExchangeRate;
 
-class EcbClient
+class EcbClient implements EcbClientInterface
 {
-
-    /**
-     * @const string
-     */
-    const HTTP_GET = 'GET';
-
-    /**
-     * @const string
-     */
-    const DEFAULT_EXCHANGE_RATES_URL = 'https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml';
 
     /**
      * @var Client
@@ -34,7 +24,7 @@ class EcbClient
     /**
      * @param string $exchangeRatesUrl
      */
-    public function __construct(string $exchangeRatesUrl)
+    public function __construct(string $exchangeRatesUrl = self::DEFAULT_EXCHANGE_RATES_URL)
     {
         $this->exchangeRatesUrl = $exchangeRatesUrl;
         $this->client = new Client();

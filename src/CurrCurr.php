@@ -2,6 +2,8 @@
 
 namespace SteffenBrand\CurrCurr;
 
+use SteffenBrand\CurrCurr\Client\EcbClient;
+use SteffenBrand\CurrCurr\Client\EcbClientInterface;
 use SteffenBrand\CurrCurr\Exception\CurrencyNotSupportedException;
 use SteffenBrand\CurrCurr\Exception\ExchangeRatesMappingFailedException;
 use SteffenBrand\CurrCurr\Exception\ExchangeRatesRequestFailedException;
@@ -18,11 +20,14 @@ class CurrCurr
 
     /**
      * CurrCurr constructor.
-     * @param string $exchangeRatesUrl The url of the ezb exchange rates service
+     * @param EcbClientInterface $ecbClient The ECB Client to use, leave blank for default ECB Client
      */
-    public function __construct(string $exchangeRatesUrl = EcbClient::DEFAULT_EXCHANGE_RATES_URL)
+    public function __construct(EcbClientInterface $ecbClient = null)
     {
-        $this->ecbClient = new EcbClient($exchangeRatesUrl);
+        if (null === $ecbClient) {
+            $ecbClient = new EcbClient();
+        }
+        $this->ecbClient = $ecbClient;
     }
 
     /**
@@ -48,7 +53,7 @@ class CurrCurr
         $exchangeRates = $this->getExchangeRates();
 
         if (in_array($currencyAbbr, Currency::ALLOWED_CURRENCIES) === false
-        &&  array_key_exists($currencyAbbr, $exchangeRates) === false) {
+        ||  array_key_exists($currencyAbbr, $exchangeRates) === false) {
             throw new CurrencyNotSupportedException();
         }
 
