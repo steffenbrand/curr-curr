@@ -20,11 +20,11 @@ class EcbClientMock implements EcbClientInterface
     private $response;
 
     /**
-     * @param string $exchangeRatesUrl
+     * @param string $expectedResponse
      */
-    public function __construct(string $exchangeRatesUrl = self::DEFAULT_EXCHANGE_RATES_URL)
+    public function __construct(string $expectedResponse)
     {
-        switch ($exchangeRatesUrl) {
+        switch ($expectedResponse) {
             case 'ValidResponse':
                 $this->response = new ValidResponse();
                 break;
