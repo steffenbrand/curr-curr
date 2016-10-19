@@ -1,12 +1,12 @@
 <?php
 
-namespace SteffenBrand\CurrCurr\Test\Response;
+namespace SteffenBrand\CurrCurr\Response;
 
 use GuzzleHttp\Psr7\Stream;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
 
-class DateMissingResponse implements ResponseInterface
+class ValidResponse implements ResponseInterface
 {
 
     /**
@@ -190,7 +190,7 @@ class DateMissingResponse implements ResponseInterface
      */
     public function getBody()
     {
-        $xmlString = file_get_contents(__DIR__ . '/../../resources/eurofxref-daily-date-missing.xml');
+        $xmlString = file_get_contents(__DIR__ . '/../../resources/eurofxref-daily-valid.xml');
         $xmlResource = fopen('data://application/xml,' . $xmlString,'r');
         return new Stream($xmlResource);
     }

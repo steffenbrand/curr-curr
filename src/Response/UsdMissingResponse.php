@@ -1,6 +1,6 @@
 <?php
 
-namespace SteffenBrand\CurrCurr\Test\Response;
+namespace SteffenBrand\CurrCurr\Response;
 
 use GuzzleHttp\Psr7\Stream;
 use Psr\Http\Message\ResponseInterface;

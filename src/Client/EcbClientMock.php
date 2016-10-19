@@ -1,15 +1,14 @@
 <?php
 
-namespace SteffenBrand\CurrCurr\Test\Client;
+namespace SteffenBrand\CurrCurr\Client;
 
 use Psr\Http\Message\ResponseInterface;
-use SteffenBrand\CurrCurr\Client\EcbClientInterface;
 use SteffenBrand\CurrCurr\Exception\ExchangeRatesRequestFailedException;
 use SteffenBrand\CurrCurr\Mapper\ExchangeRatesMapper;
 use SteffenBrand\CurrCurr\Model\ExchangeRate;
-use SteffenBrand\CurrCurr\Test\Response\DateMissingResponse;
-use SteffenBrand\CurrCurr\Test\Response\UsdMissingResponse;
-use SteffenBrand\CurrCurr\Test\Response\ValidResponse;
+use SteffenBrand\CurrCurr\Response\DateMissingResponse;
+use SteffenBrand\CurrCurr\Response\UsdMissingResponse;
+use SteffenBrand\CurrCurr\Response\ValidResponse;
 
 class EcbClientMock implements EcbClientInterface
 {
