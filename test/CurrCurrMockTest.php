@@ -17,12 +17,12 @@ class CurrCurrMockTest extends PHPUnit_Framework_TestCase
 
     public function testIsInstantiable()
     {
-        $this->assertInstanceOf(CurrCurr::class, $this->getInstance('ValidResponse'));
+        $this->assertInstanceOf(CurrCurr::class, $this->getInstance(EcbClientMock::VALID_RESPONSE));
     }
 
     public function testGetExchangeRates()
     {
-        $cc = $this->getInstance('ValidResponse');
+        $cc = $this->getInstance(EcbClientMock::VALID_RESPONSE);
         $exchangeRates = $cc->getExchangeRates();
 
         $this->assertNotNull($exchangeRates, 'exchange rates must not be null');
@@ -36,7 +36,7 @@ class CurrCurrMockTest extends PHPUnit_Framework_TestCase
 
     public function testGetExchangeRateByCurrency()
     {
-        $cc = $this->getInstance('ValidResponse');
+        $cc = $this->getInstance(EcbClientMock::VALID_RESPONSE);
         $exchangeRate = $cc->getExchangeRateByCurrency(Currency::USD);
 
         $this->assertNotNull($exchangeRate, 'exchange rate must not be null');
@@ -55,7 +55,7 @@ class CurrCurrMockTest extends PHPUnit_Framework_TestCase
      */
     public function testSomeStringThrowsCurrencyNotSupportedException()
     {
-        $cc = $this->getInstance('ValidResponse');
+        $cc = $this->getInstance(EcbClientMock::VALID_RESPONSE);
         $cc->getExchangeRateByCurrency('SOMESTRING');
     }
 
@@ -65,7 +65,7 @@ class CurrCurrMockTest extends PHPUnit_Framework_TestCase
      */
     public function testMissingUsdThrowsCurrencyNotSupportedException()
     {
-        $cc = $this->getInstance('UsdMissingResponse');
+        $cc = $this->getInstance(EcbClientMock::USD_MISSING_RESPONSE);
         $cc->getExchangeRateByCurrency(Currency::USD);
     }
 
@@ -75,7 +75,7 @@ class CurrCurrMockTest extends PHPUnit_Framework_TestCase
      */
     public function testMissingDateThrowsExchangeRatesMappingFailedException()
     {
-        $cc = $this->getInstance('DateMissingResponse');
+        $cc = $this->getInstance(EcbClientMock::DATE_MISSING_RESPONSE);
         $cc->getExchangeRates();
     }
 

@@ -12,6 +12,10 @@ use SteffenBrand\CurrCurr\Model\ExchangeRate;
 class EcbClientMock implements EcbClientInterface
 {
 
+    const VALID_RESPONSE = 'ValidResponse';
+    const USD_MISSING_RESPONSE = 'UsdMissingResponse';
+    const DATE_MISSING_RESPONSE = 'DateMissingResponse';
+
     /**
      * @var ResponseInterface
      */
@@ -23,21 +27,21 @@ class EcbClientMock implements EcbClientInterface
     public function __construct(string $expectedResponse)
     {
         switch ($expectedResponse) {
-            case 'ValidResponse':
+            case self::VALID_RESPONSE:
                 $this->response = new Response(
                     200,
                     [],
                     $this->createStreamFromXmlFile(__DIR__ . '/../../resources/eurofxref-daily-valid.xml')
                 );
                 break;
-            case 'UsdMissingResponse':
+            case self::USD_MISSING_RESPONSE:
                 $this->response = new Response(
                     200,
                     [],
                     $this->createStreamFromXmlFile(__DIR__ . '/../../resources/eurofxref-daily-usd-missing.xml')
                 );
                 break;
-            case 'DateMissingResponse':
+            case self::DATE_MISSING_RESPONSE:
                 $this->response = new Response(
                     200,
                     [],
