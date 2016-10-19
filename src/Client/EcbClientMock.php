@@ -27,36 +27,21 @@ class EcbClientMock implements EcbClientInterface
                 $this->response = new Response(
                     200,
                     [],
-                    new Stream(
-                        fopen(
-                            'data://application/xml,' . file_get_contents(__DIR__ . '/../../resources/eurofxref-daily-valid.xml'),
-                            'r'
-                        )
-                    )
+                    $this->createStreamFromXmlFile(__DIR__ . '/../../resources/eurofxref-daily-valid.xml')
                 );
                 break;
             case 'UsdMissingResponse':
                 $this->response = new Response(
                     200,
                     [],
-                    new Stream(
-                        fopen(
-                            'data://application/xml,' . file_get_contents(__DIR__ . '/../../resources/eurofxref-daily-usd-missing.xml'),
-                            'r'
-                        )
-                    )
+                    $this->createStreamFromXmlFile(__DIR__ . '/../../resources/eurofxref-daily-usd-missing.xml')
                 );
                 break;
             case 'DateMissingResponse':
                 $this->response = new Response(
                     200,
                     [],
-                    new Stream(
-                        fopen(
-                            'data://application/xml,' . file_get_contents(__DIR__ . '/../../resources/eurofxref-daily-date-missing.xml'),
-                            'r'
-                        )
-                    )
+                    $this->createStreamFromXmlFile(__DIR__ . '/../../resources/eurofxref-daily-date-missing.xml')
                 );
                 break;
         }
@@ -70,6 +55,20 @@ class EcbClientMock implements EcbClientInterface
     {
         $mapper = new ExchangeRatesMapper();
         return $mapper->map($this->response);
+    }
+
+    /**
+     * @param string $file
+     * @return Stream
+     */
+    private function createStreamFromXmlFile(string $file): Stream
+    {
+        return new Stream(
+            fopen(
+                'data://application/xml,' . file_get_contents($file),
+                'r'
+            )
+        );
     }
 
 }
