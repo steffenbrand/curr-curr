@@ -2,13 +2,12 @@
 
 namespace SteffenBrand\CurrCurr\Client;
 
+use GuzzleHttp\Psr7\Response;
+use GuzzleHttp\Psr7\Stream;
 use Psr\Http\Message\ResponseInterface;
 use SteffenBrand\CurrCurr\Exception\ExchangeRatesRequestFailedException;
 use SteffenBrand\CurrCurr\Mapper\ExchangeRatesMapper;
 use SteffenBrand\CurrCurr\Model\ExchangeRate;
-use SteffenBrand\CurrCurr\Response\DateMissingResponse;
-use SteffenBrand\CurrCurr\Response\UsdMissingResponse;
-use SteffenBrand\CurrCurr\Response\ValidResponse;
 
 class EcbClientMock implements EcbClientInterface
 {
@@ -25,13 +24,40 @@ class EcbClientMock implements EcbClientInterface
     {
         switch ($expectedResponse) {
             case 'ValidResponse':
-                $this->response = new ValidResponse();
+                $this->response = new Response(
+                    200,
+                    [],
+                    new Stream(
+                        fopen(
+                            'data://application/xml,' . file_get_contents(__DIR__ . '/../../resources/eurofxref-daily-valid.xml'),
+                            'r'
+                        )
+                    )
+                );
                 break;
             case 'UsdMissingResponse':
-                $this->response = new UsdMissingResponse();
+                $this->response = new Response(
+                    200,
+                    [],
+                    new Stream(
+                        fopen(
+                            'data://application/xml,' . file_get_contents(__DIR__ . '/../../resources/eurofxref-daily-usd-missing.xml'),
+                            'r'
+                        )
+                    )
+                );
                 break;
             case 'DateMissingResponse':
-                $this->response = new DateMissingResponse();
+                $this->response = new Response(
+                    200,
+                    [],
+                    new Stream(
+                        fopen(
+                            'data://application/xml,' . file_get_contents(__DIR__ . '/../../resources/eurofxref-daily-date-missing.xml'),
+                            'r'
+                        )
+                    )
+                );
                 break;
         }
     }
