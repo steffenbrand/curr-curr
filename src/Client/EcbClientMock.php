@@ -31,21 +31,21 @@ class EcbClientMock implements EcbClientInterface
                 $this->response = new Response(
                     200,
                     [],
-                    $this->createStreamFromXmlFile(__DIR__ . '/../../resources/eurofxref-daily-valid.xml')
+                    file_get_contents(__DIR__ . '/../../resources/eurofxref-daily-valid.xml')
                 );
                 break;
             case self::USD_MISSING_RESPONSE:
                 $this->response = new Response(
                     200,
                     [],
-                    $this->createStreamFromXmlFile(__DIR__ . '/../../resources/eurofxref-daily-usd-missing.xml')
+                    file_get_contents(__DIR__ . '/../../resources/eurofxref-daily-usd-missing.xml')
                 );
                 break;
             case self::DATE_MISSING_RESPONSE:
                 $this->response = new Response(
                     200,
                     [],
-                    $this->createStreamFromXmlFile(__DIR__ . '/../../resources/eurofxref-daily-date-missing.xml')
+                    file_get_contents(__DIR__ . '/../../resources/eurofxref-daily-date-missing.xml')
                 );
                 break;
         }
@@ -59,20 +59,6 @@ class EcbClientMock implements EcbClientInterface
     {
         $mapper = new ExchangeRatesMapper();
         return $mapper->map($this->response);
-    }
-
-    /**
-     * @param string $file
-     * @return Stream
-     */
-    private function createStreamFromXmlFile(string $file): Stream
-    {
-        return new Stream(
-            fopen(
-                'data://application/xml,' . file_get_contents($file),
-                'r'
-            )
-        );
     }
 
 }
