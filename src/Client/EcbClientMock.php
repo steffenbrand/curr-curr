@@ -28,25 +28,13 @@ class EcbClientMock implements EcbClientInterface
     {
         switch ($expectedResponse) {
             case self::VALID_RESPONSE:
-                $this->response = new Response(
-                    200,
-                    [],
-                    file_get_contents(__DIR__ . '/../../resources/eurofxref-daily-valid.xml')
-                );
+                $this->response = $this->createResponseFromFile(__DIR__ . '/../../resources/eurofxref-daily-valid.xml');
                 break;
             case self::USD_MISSING_RESPONSE:
-                $this->response = new Response(
-                    200,
-                    [],
-                    file_get_contents(__DIR__ . '/../../resources/eurofxref-daily-usd-missing.xml')
-                );
+                $this->response = $this->createResponseFromFile(__DIR__ . '/../../resources/eurofxref-daily-usd-missing.xml');
                 break;
             case self::DATE_MISSING_RESPONSE:
-                $this->response = new Response(
-                    200,
-                    [],
-                    file_get_contents(__DIR__ . '/../../resources/eurofxref-daily-date-missing.xml')
-                );
+                $this->response = $this->createResponseFromFile(__DIR__ . '/../../resources/eurofxref-daily-date-missing.xml');
                 break;
         }
     }
@@ -59,6 +47,15 @@ class EcbClientMock implements EcbClientInterface
     {
         $mapper = new ExchangeRatesMapper();
         return $mapper->map($this->response);
+    }
+
+    /**
+     * @param string $file
+     * @return Response
+     */
+    private function createResponseFromFile(string $file)
+    {
+        return new Response(200, [], file_get_contents($file));
     }
 
 }
