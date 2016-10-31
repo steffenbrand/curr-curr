@@ -64,3 +64,14 @@ try {
     // webservice might not deliver what we expect
 }
 ```
+
+### Mocking webservice response for Unit Testing your own project
+
+CurrCurr allows you to inject your own implementation of the EcbClientInterface.
+But you can also use the provided EcbClientMock, which allows you to simulate 3 different responses.
+
+```php
+$cc1 = new CurrCurr(new EcbClientMock(EcbClientMock::VALID_RESPONSE));
+$cc2 = new CurrCurr(new EcbClientMock(EcbClientMock::USD_MISSING_RESPONSE));
+$cc3 = new CurrCurr(new EcbClientMock(EcbClientMock::DATE_MISSING_RESPONSE));
+```

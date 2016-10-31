@@ -3,7 +3,6 @@
 namespace SteffenBrand\CurrCurr\Client;
 
 use GuzzleHttp\Psr7\Response;
-use GuzzleHttp\Psr7\Stream;
 use Psr\Http\Message\ResponseInterface;
 use SteffenBrand\CurrCurr\Exception\ExchangeRatesRequestFailedException;
 use SteffenBrand\CurrCurr\Mapper\ExchangeRatesMapper;

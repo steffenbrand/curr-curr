@@ -12,6 +12,16 @@ class EcbClient implements EcbClientInterface
 {
 
     /**
+     * @const string
+     */
+    const HTTP_GET = 'GET';
+
+    /**
+     * @const string
+     */
+    const DEFAULT_EXCHANGE_RATES_URL = 'https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml';
+
+    /**
      * @var Client
      */
     private $client;
