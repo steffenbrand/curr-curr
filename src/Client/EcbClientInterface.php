@@ -14,7 +14,6 @@ interface EcbClientInterface
     public function __construct(string $exchangeRatesUrl);
 
     /**
-     * @throws ExchangeRatesRequestFailedException
      * @return ExchangeRate[]
      */
     public function getExchangeRates(): array;
