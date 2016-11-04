@@ -34,9 +34,13 @@ class EcbClient implements EcbClientInterface
     /**
      * @param string $exchangeRatesUrl
      */
-    public function __construct(string $exchangeRatesUrl = self::DEFAULT_EXCHANGE_RATES_URL)
+    public function __construct(string $exchangeRatesUrl = null)
     {
-        $this->exchangeRatesUrl = $exchangeRatesUrl;
+        if (null === $exchangeRatesUrl) {
+            $this->exchangeRatesUrl = self::DEFAULT_EXCHANGE_RATES_URL
+        } else {
+            $this->exchangeRatesUrl = $exchangeRatesUrl;   
+        }
         $this->client = new Client();
     }
 
