@@ -45,7 +45,7 @@
     "homepage": "https://github.com/steffenbrand/curr-curr",
     "license": "Unlicense",
     "type": "library",
-    "version": "2.1.8",
+    "version": "2.2.0",
     "authors": [
         {
             "name": "Steffen Brand",
