@@ -13,6 +13,7 @@ class ExchangeRatesMapper implements MapperInterface
 
     /**
      * @param ResponseInterface $response
+     * @throws ExchangeRatesMappingFailedException
      * @return ExchangeRate[]
      */
     public function map(ResponseInterface $response): array
@@ -27,6 +28,7 @@ class ExchangeRatesMapper implements MapperInterface
 
     /**
      * @param string $body
+     * @throws ExchangeRatesMappingFailedException
      * @return SimpleXMLElement
      */
     private function parseBody(string $body): SimpleXMLElement
@@ -45,6 +47,7 @@ class ExchangeRatesMapper implements MapperInterface
 
     /**
      * @param SimpleXMLElement $xml
+     * @throws ExchangeRatesMappingFailedException
      * @return DateTime
      */
     private function parseDate(SimpleXMLElement $xml): DateTime
