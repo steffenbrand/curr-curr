@@ -8,7 +8,7 @@
 [![License](https://poser.pugx.org/steffenbrand/curr-curr/license)](https://github.com/steffenbrand/curr-curr/blob/master/LICENSE.md)
 [![composer.lock available](https://poser.pugx.org/steffenbrand/curr-curr/composerlock)](https://github.com/steffenbrand/curr-curr/blob/master/composer.lock)
 
-![CurrCurr Logo](https://github.com/steffenbrand/curr-curr/blob/master/curr-curr.jpg)
+![CurrCurr Logo](https://github.com/steffenbrand/curr-curr/blob/master/curr-curr.jpg?raw=true)
 
 Delivers current exchange rates for EUR provided by the ECB under https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml as PHP objects.
 
