@@ -52,7 +52,7 @@ class EcbClientMock implements EcbClientInterface
      * @param string $file
      * @return Response
      */
-    private function createResponseFromFile(string $file)
+    private function createResponseFromFile(string $file): Response
     {
         return new Response(200, [], file_get_contents($file));
     }

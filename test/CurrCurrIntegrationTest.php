@@ -59,7 +59,7 @@ class CurrCurrIntegrationTest extends PHPUnit_Framework_TestCase
      */
     public function testGetExchangeRatesThrowsExchangeRatesRequestFailedException()
     {
-        $cc = $this->getInstance('http://www.sb-webworks.de/not-found.xml');
+        $cc = $this->getInstance('http://httpstat.us/404');
         $cc->getExchangeRates();
     }
 
@@ -69,7 +69,7 @@ class CurrCurrIntegrationTest extends PHPUnit_Framework_TestCase
      */
     public function testGetExchangeRatesThrowsExchangeRatesMappingFailedException()
     {
-        $cc = $this->getInstance('https://www.google.de');
+        $cc = $this->getInstance('http://httpstat.us/200');
         $cc->getExchangeRates();
     }
 
