@@ -34,6 +34,11 @@ class EcbClientMock implements EcbClientInterface
     private $response;
 
     /**
+     * @var MapperInterface
+     */
+    private $mapper;
+
+    /**
      * @param string $expectedResponse
      * @param CacheInterface $cache
      * @param int $cacheTimeInSeconds
@@ -44,6 +49,12 @@ class EcbClientMock implements EcbClientInterface
                                 int $cacheTimeInSeconds = self::CACHE_UNTIL_MIDNIGHT,
                                 MapperInterface $mapper = null)
     {
+
+        if (null === $mapper) {
+            $mapper = new ExchangeRatesMapper();
+        }
+        $this->mapper = $mapper;
+
         switch ($expectedResponse) {
             case self::VALID_RESPONSE:
                 $this->response = $this->createResponseFromFile(__DIR__ . '/../../resources/eurofxref-daily-valid.xml');
@@ -63,8 +74,7 @@ class EcbClientMock implements EcbClientInterface
      */
     public function getExchangeRates(): array
     {
-        $mapper = new ExchangeRatesMapper();
-        return $mapper->map($this->response);
+        return $this->mapper->map($this->response);
     }
 
     /**
