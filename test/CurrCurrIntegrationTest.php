@@ -2,7 +2,6 @@
 
 namespace SteffenBrand\CurrCurr\Test;
 
-use DateTime;
 use PHPUnit_Framework_TestCase;
 use SteffenBrand\CurrCurr\Client\EcbClient;
 use SteffenBrand\CurrCurr\CurrCurr;
@@ -28,7 +27,7 @@ class CurrCurrIntegrationTest extends PHPUnit_Framework_TestCase
         $this->assertNotNull($exchangeRates, 'exchange rates must not be null');
         $this->assertNotEmpty($exchangeRates, 'exchange rates must not be empty');
         $this->assertArrayHasKey(Currency::USD, $exchangeRates, 'exchange rates must contain USD');
-        $this->assertInstanceOf(DateTime::class, $exchangeRates[Currency::USD]->getDate(), 'date must be instance of DateTime');
+        $this->assertInstanceOf(\DateTime::class, $exchangeRates[Currency::USD]->getDate(), 'date must be instance of DateTime');
     }
 
     public function testGetExchangeRateByCurrency()
@@ -38,7 +37,7 @@ class CurrCurrIntegrationTest extends PHPUnit_Framework_TestCase
 
         $this->assertNotNull($exchangeRate, 'exchange rates must not be null');
         $this->assertInstanceOf(ExchangeRate::class, $exchangeRate, 'exchange rate must be instance of ExchangeRate');
-        $this->assertInstanceOf(DateTime::class, $exchangeRate->getDate(), 'date must be instance of DateTime');
+        $this->assertInstanceOf(\DateTime::class, $exchangeRate->getDate(), 'date must be instance of DateTime');
         $this->assertNotEmpty($exchangeRate->getRate(), 'rate must not be empty');
         $this->assertNotEmpty($exchangeRate->getCurrency(), 'currency must not be empty');
     }

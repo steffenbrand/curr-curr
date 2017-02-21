@@ -42,11 +42,13 @@ class EcbClientMock implements EcbClientInterface
      * @param string $expectedResponse
      * @param CacheInterface $cache
      * @param int $cacheTimeInSeconds
+     * @param string $cacheKey
      * @param MapperInterface $mapper
      */
     public function __construct(string $expectedResponse = self::VALID_RESPONSE,
                                 CacheInterface $cache = null,
                                 int $cacheTimeInSeconds = self::CACHE_UNTIL_MIDNIGHT,
+                                string $cacheKey = self::DEFAULT_CACHE_KEY,
                                 MapperInterface $mapper = null)
     {
         if (null === $mapper) {

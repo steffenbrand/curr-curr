@@ -2,7 +2,6 @@
 
 namespace SteffenBrand\CurrCurr\Test;
 
-use DateTime;
 use PHPUnit_Framework_TestCase;
 use SteffenBrand\CurrCurr\CurrCurr;
 use SteffenBrand\CurrCurr\Model\Currency;
@@ -28,8 +27,8 @@ class CurrCurrMockTest extends PHPUnit_Framework_TestCase
         $this->assertNotNull($exchangeRates, 'exchange rates must not be null');
         $this->assertNotEmpty($exchangeRates, 'exchange rates must not be empty');
         $this->assertArrayHasKey(Currency::USD, $exchangeRates, 'exchange rates must contain USD');
-        $this->assertInstanceOf(DateTime::class, $exchangeRates[Currency::USD]->getDate(), 'date must be instance of DateTime');
-        $this->assertEquals(new DateTime('2016-10-17 00:00:00'), $exchangeRates[Currency::USD]->getDate(), 'Date must be 2016-10-17 00:00:00');
+        $this->assertInstanceOf(\DateTime::class, $exchangeRates[Currency::USD]->getDate(), 'date must be instance of DateTime');
+        $this->assertEquals(new \DateTime('2016-10-17 00:00:00'), $exchangeRates[Currency::USD]->getDate(), 'Date must be 2016-10-17 00:00:00');
         $this->assertEquals(Currency::USD, $exchangeRates[Currency::USD]->getCurrency(), 'Currency must be ' . Currency::USD);
         $this->assertEquals(1.0994, $exchangeRates[Currency::USD]->getRate(), 'Rate must be 1.0994');
     }
@@ -41,10 +40,10 @@ class CurrCurrMockTest extends PHPUnit_Framework_TestCase
 
         $this->assertNotNull($exchangeRate, 'exchange rate must not be null');
         $this->assertInstanceOf(ExchangeRate::class, $exchangeRate, 'exchange rate must be instance of ExchangeRate');
-        $this->assertInstanceOf(DateTime::class, $exchangeRate->getDate(), 'date must be instance of DateTime');
+        $this->assertInstanceOf(\DateTime::class, $exchangeRate->getDate(), 'date must be instance of DateTime');
         $this->assertNotEmpty($exchangeRate->getRate(), 'rate must not be empty');
         $this->assertNotEmpty($exchangeRate->getCurrency(), 'currency must not be empty');
-        $this->assertEquals(new DateTime('2016-10-17 00:00:00'), $exchangeRate->getDate(), 'Date must be 2016-10-17 00:00:00');
+        $this->assertEquals(new \DateTime('2016-10-17 00:00:00'), $exchangeRate->getDate(), 'Date must be 2016-10-17 00:00:00');
         $this->assertEquals(Currency::USD, $exchangeRate->getCurrency(), 'Currency must be ' . Currency::USD);
         $this->assertEquals(1.0994, $exchangeRate->getRate(), 'Rate must be 1.0994');
     }

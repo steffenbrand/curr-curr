@@ -29,6 +29,11 @@ class EcbClient implements EcbClientInterface
     private $cacheTimeInSeconds;
 
     /**
+     * @var string
+     */
+    private $cacheKey;
+
+    /**
      * @var MapperInterface
      */
     private $mapper;
@@ -42,15 +47,19 @@ class EcbClient implements EcbClientInterface
      * @param string $exchangeRatesUrl
      * @param CacheInterface $cache
      * @param int $cacheTimeInSeconds
+     * @param string $cacheKey
+     * @param MapperInterface $mapper
      */
     public function __construct(string $exchangeRatesUrl = self::DEFAULT_EXCHANGE_RATES_URL,
                                 CacheInterface $cache = null,
                                 int $cacheTimeInSeconds = self::CACHE_UNTIL_MIDNIGHT,
+                                string $cacheKey = self::DEFAULT_CACHE_KEY,
                                 MapperInterface $mapper = null)
     {
         $this->exchangeRatesUrl = $exchangeRatesUrl;
         $this->cache = $cache;
         $this->cacheTimeInSeconds = $cacheTimeInSeconds;
+        $this->cacheKey = $cacheKey;
         if (null === $mapper) {
             $mapper = new ExchangeRatesMapper();
         }
@@ -82,19 +91,17 @@ class EcbClient implements EcbClientInterface
      */
     private function performCachedRequest()
     {
-        $now = new \DateTime();
-        $key = 'curr-curr-' . $now->format('YY-mm-dd');
-        $responseBody = $this->cache->get($key);
-
+        $responseBody = $this->cache->get($this->cacheKey, null);
         if (null === $responseBody) {
             $response = $this->performRequest();
             if ($this->cacheTimeInSeconds === self::CACHE_UNTIL_MIDNIGHT) {
                 $this->cacheTimeInSeconds = strtotime('tomorrow') - time();
             }
-            $this->cache->set($key, $response->getBody()->getContents(), $this->cacheTimeInSeconds);
-        } else {
-            $response = new Response(200, [], $responseBody);
+            $responseBody = $response->getBody()->getContents();
+            $this->cache->set($this->cacheKey, $responseBody, $this->cacheTimeInSeconds);
         }
+
+        $response = new Response(200, [], $responseBody);
 
         return $response;
     }
