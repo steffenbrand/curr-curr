@@ -18,6 +18,11 @@ class EcbClient implements EcbClientInterface
     const DEFAULT_EXCHANGE_RATES_URL = 'https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml';
 
     /**
+     * @const int
+     */
+    const CACHE_UNTIL_MIDNIGHT = -1;
+
+    /**
      * @var Client
      */
     private $client;
@@ -28,6 +33,11 @@ class EcbClient implements EcbClientInterface
     private $cache;
 
     /**
+     * @var int
+     */
+    private $cacheTimeInSeconds;
+
+    /**
      * @var string
      */
     private $exchangeRatesUrl;
@@ -35,11 +45,13 @@ class EcbClient implements EcbClientInterface
     /**
      * @param string $exchangeRatesUrl
      * @param CacheInterface $cache
+     * @param int $cacheTimeInSeconds -1 to cache until midnight
      */
-    public function __construct(string $exchangeRatesUrl = self::DEFAULT_EXCHANGE_RATES_URL, CacheInterface $cache = null)
+    public function __construct(string $exchangeRatesUrl = self::DEFAULT_EXCHANGE_RATES_URL, CacheInterface $cache = null, int $cacheTimeInSeconds = self::CACHE_UNTIL_MIDNIGHT)
     {
         $this->exchangeRatesUrl = $exchangeRatesUrl;
         $this->cache = $cache;
+        $this->cacheTimeInSeconds = $cacheTimeInSeconds;
         $this->client = new Client();
     }
 
@@ -51,12 +63,14 @@ class EcbClient implements EcbClientInterface
     {
         try {
             if (null !== $this->cache) {
-                $date = new \DateTime('now');
-                $key = $date->format('YY-mm-dd');
+                $now = new \DateTime();
+                $key = 'curr-curr-' . $now->format('YY-mm-dd');
                 if (null === $responseBody = $this->cache->get($key)) {
                     $response = $this->performRequest();
-                    $this->cache->clear();
-                    $this->cache->set($key, $response->getBody()->getContents());
+                    if ($this->cacheTimeInSeconds === self::CACHE_UNTIL_MIDNIGHT) {
+                        $this->cacheTimeInSeconds = strtotime('tomorrow') - time();
+                    }
+                    $this->cache->set($key, $response->getBody()->getContents(), $this->cacheTimeInSeconds);
                 } else {
                     $response = new Response(200, [], $responseBody);
                 }
