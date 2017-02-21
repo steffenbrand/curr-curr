@@ -49,7 +49,6 @@ class EcbClientMock implements EcbClientInterface
                                 int $cacheTimeInSeconds = self::CACHE_UNTIL_MIDNIGHT,
                                 MapperInterface $mapper = null)
     {
-
         if (null === $mapper) {
             $mapper = new ExchangeRatesMapper();
         }
