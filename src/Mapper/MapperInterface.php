@@ -6,7 +6,5 @@ use Psr\Http\Message\ResponseInterface;
 
 interface MapperInterface
 {
-
     public function map(ResponseInterface $response): array;
-
 }

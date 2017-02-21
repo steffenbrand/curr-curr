@@ -4,6 +4,7 @@ namespace SteffenBrand\CurrCurr\Client;
 
 use GuzzleHttp\Psr7\Response;
 use Psr\Http\Message\ResponseInterface;
+use Psr\SimpleCache\CacheInterface;
 use SteffenBrand\CurrCurr\Exception\ExchangeRatesRequestFailedException;
 use SteffenBrand\CurrCurr\Mapper\ExchangeRatesMapper;
 use SteffenBrand\CurrCurr\Model\ExchangeRate;
@@ -22,8 +23,9 @@ class EcbClientMock implements EcbClientInterface
 
     /**
      * @param string $expectedResponse
+     * @param CacheInterface $cache
      */
-    public function __construct(string $expectedResponse)
+    public function __construct(string $expectedResponse, CacheInterface $cache = null)
     {
         switch ($expectedResponse) {
             case self::VALID_RESPONSE:

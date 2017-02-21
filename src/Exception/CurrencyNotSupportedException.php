@@ -2,9 +2,7 @@
 
 namespace SteffenBrand\CurrCurr\Exception;
 
-use UnexpectedValueException;
-
-class CurrencyNotSupportedException extends UnexpectedValueException
+class CurrencyNotSupportedException extends \UnexpectedValueException
 {
 
     public function __construct()

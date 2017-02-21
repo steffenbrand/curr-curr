@@ -2,7 +2,7 @@
 
 namespace SteffenBrand\CurrCurr\Client;
 
-use SteffenBrand\CurrCurr\Exception\ExchangeRatesRequestFailedException;
+use Psr\SimpleCache\CacheInterface;
 use SteffenBrand\CurrCurr\Model\ExchangeRate;
 
 interface EcbClientInterface
@@ -10,8 +10,9 @@ interface EcbClientInterface
 
     /**
      * @param string $exchangeRatesUrl
+     * @param CacheInterface $cache
      */
-    public function __construct(string $exchangeRatesUrl);
+    public function __construct(string $exchangeRatesUrl, CacheInterface $cache);
 
     /**
      * @return ExchangeRate[]

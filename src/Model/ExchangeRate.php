@@ -2,13 +2,11 @@
 
 namespace SteffenBrand\CurrCurr\Model;
 
-use DateTime;
-
 class ExchangeRate
 {
 
     /**
-     * @var DateTime
+     * @var \DateTime
      */
     private $date;
 
@@ -26,9 +24,9 @@ class ExchangeRate
      * ExchangeRate constructor.
      * @param string $currency
      * @param float $rate
-     * @param DateTime $date
+     * @param \DateTime $date
      */
-    public function __construct(string $currency, float $rate, DateTime $date)
+    public function __construct(string $currency, float $rate, \DateTime $date)
     {
         $this->currency = $currency;
         $this->rate = $rate;
@@ -52,9 +50,9 @@ class ExchangeRate
     }
 
     /**
-     * @return DateTime The date on which this exchange rate is valid
+     * @return \DateTime The date on which this exchange rate is valid
      */
-    public function getDate(): DateTime
+    public function getDate(): \DateTime
     {
         return $this->date;
     }

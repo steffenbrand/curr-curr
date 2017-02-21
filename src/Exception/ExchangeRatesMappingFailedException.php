@@ -2,9 +2,7 @@
 
 namespace SteffenBrand\CurrCurr\Exception;
 
-use RuntimeException;
-
-class ExchangeRatesMappingFailedException extends RuntimeException
+class ExchangeRatesMappingFailedException extends \RuntimeException
 {
 
     public function __construct()

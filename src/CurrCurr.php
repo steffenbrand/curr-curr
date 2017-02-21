@@ -2,6 +2,7 @@
 
 namespace SteffenBrand\CurrCurr;
 
+use Psr\SimpleCache\CacheInterface;
 use SteffenBrand\CurrCurr\Client\EcbClient;
 use SteffenBrand\CurrCurr\Client\EcbClientInterface;
 use SteffenBrand\CurrCurr\Exception\CurrencyNotSupportedException;
@@ -12,22 +13,21 @@ use SteffenBrand\CurrCurr\Model\ExchangeRate;
 
 class CurrCurr
 {
-
     /**
-     * @var EcbClient
+     * @var EcbClientInterface
      */
-    private $ecbClient;
+    private $client;
 
     /**
      * CurrCurr constructor.
-     * @param EcbClientInterface $ecbClient The ECB Client to use, leave blank for default ECB Client
+     * @param EcbClientInterface $client The ECB Client to use, leave blank for default ECB Client
      */
-    public function __construct(EcbClientInterface $ecbClient = null)
+    public function __construct(EcbClientInterface $client = null)
     {
-        if (null === $ecbClient) {
-            $ecbClient = new EcbClient();
+        if (null === $client) {
+            $client = new EcbClient();
         }
-        $this->ecbClient = $ecbClient;
+        $this->client = $client;
     }
 
     /**
@@ -38,7 +38,7 @@ class CurrCurr
      */
     public function getExchangeRates(): array
     {
-        return $this->ecbClient->getExchangeRates();
+        return $this->client->getExchangeRates();
     }
 
     /**

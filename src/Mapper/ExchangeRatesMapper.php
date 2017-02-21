@@ -2,7 +2,6 @@
 
 namespace SteffenBrand\CurrCurr\Mapper;
 
-use DateTime;
 use Psr\Http\Message\ResponseInterface;
 use SimpleXMLElement;
 use SteffenBrand\CurrCurr\Exception\ExchangeRatesMappingFailedException;
@@ -48,11 +47,11 @@ class ExchangeRatesMapper implements MapperInterface
     /**
      * @param SimpleXMLElement $xml
      * @throws ExchangeRatesMappingFailedException
-     * @return DateTime
+     * @return \DateTime
      */
-    private function parseDate(SimpleXMLElement $xml): DateTime
+    private function parseDate(SimpleXMLElement $xml): \DateTime
     {
-        $date = DateTime::createFromFormat('Y-m-d', $xml->Cube->Cube['time']);
+        $date = \DateTime::createFromFormat('Y-m-d', $xml->Cube->Cube['time']);
         if (false !== $date) {
             $date->setTime(0, 0);
             return $date;
@@ -63,10 +62,10 @@ class ExchangeRatesMapper implements MapperInterface
 
     /**
      * @param SimpleXMLElement $xml
-     * @param DateTime $date
+     * @param \DateTime $date
      * @return array
      */
-    private function parseExchangeRates(SimpleXMLElement $xml, DateTime $date): array
+    private function parseExchangeRates(SimpleXMLElement $xml, \DateTime $date): array
     {
         $exchangeRates = [];
 

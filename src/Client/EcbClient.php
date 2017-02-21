@@ -2,20 +2,16 @@
 
 namespace SteffenBrand\CurrCurr\Client;
 
-use Exception;
 use GuzzleHttp\Client;
+use GuzzleHttp\Psr7\Response;
+use Psr\Http\Message\ResponseInterface;
+use Psr\SimpleCache\CacheInterface;
 use SteffenBrand\CurrCurr\Exception\ExchangeRatesRequestFailedException;
 use SteffenBrand\CurrCurr\Mapper\ExchangeRatesMapper;
 use SteffenBrand\CurrCurr\Model\ExchangeRate;
 
 class EcbClient implements EcbClientInterface
 {
-
-    /**
-     * @const string
-     */
-    const HTTP_GET = 'GET';
-
     /**
      * @const string
      */
@@ -27,20 +23,23 @@ class EcbClient implements EcbClientInterface
     private $client;
 
     /**
+     * @var CacheInterface
+     */
+    private $cache;
+
+    /**
      * @var string
      */
     private $exchangeRatesUrl;
 
     /**
      * @param string $exchangeRatesUrl
+     * @param CacheInterface $cache
      */
-    public function __construct(string $exchangeRatesUrl = null)
+    public function __construct(string $exchangeRatesUrl = self::DEFAULT_EXCHANGE_RATES_URL, CacheInterface $cache = null)
     {
-        if (null === $exchangeRatesUrl) {
-            $this->exchangeRatesUrl = self::DEFAULT_EXCHANGE_RATES_URL;
-        } else {
-            $this->exchangeRatesUrl = $exchangeRatesUrl;   
-        }
+        $this->exchangeRatesUrl = $exchangeRatesUrl;
+        $this->cache = $cache;
         $this->client = new Client();
     }
 
@@ -51,13 +50,34 @@ class EcbClient implements EcbClientInterface
     public function getExchangeRates(): array
     {
         try {
-            $response = $this->client->request(self::HTTP_GET, $this->exchangeRatesUrl);
-        } catch (Exception $e) {
+            if (null !== $this->cache) {
+                $date = new \DateTime('now');
+                $key = $date->format('YY-mm-dd');
+                if (null === $responseBody = $this->cache->get($key)) {
+                    $response = $this->performRequest();
+                    $this->cache->clear();
+                    $this->cache->set($key, $response->getBody()->getContents());
+                } else {
+                    $response = new Response(200, [], $responseBody);
+                }
+            } else {
+                $response = $this->performRequest();
+            }
+        } catch (\Exception $e) {
             throw new ExchangeRatesRequestFailedException($e);
         }
 
         $mapper = new ExchangeRatesMapper();
         return $mapper->map($response);
+    }
+
+    /**
+     * @return ResponseInterface
+     */
+    private function performRequest()
+    {
+        $response = $this->client->request('GET', $this->exchangeRatesUrl);
+        return $response;
     }
 
 }
