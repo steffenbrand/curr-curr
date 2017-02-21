@@ -24,8 +24,9 @@ class EcbClientMock implements EcbClientInterface
     /**
      * @param string $expectedResponse
      * @param CacheInterface $cache
+     * @param int $cacheTimeInSeconds
      */
-    public function __construct(string $expectedResponse, CacheInterface $cache = null)
+    public function __construct(string $expectedResponse, CacheInterface $cache = null, int $cacheTimeInSeconds = 0)
     {
         switch ($expectedResponse) {
             case self::VALID_RESPONSE:
