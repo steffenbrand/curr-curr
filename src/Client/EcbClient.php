@@ -4,7 +4,6 @@ namespace SteffenBrand\CurrCurr\Client;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Response;
-use Psr\Http\Message\ResponseInterface;
 use Psr\SimpleCache\CacheInterface;
 use SteffenBrand\CurrCurr\Exception\ExchangeRatesRequestFailedException;
 use SteffenBrand\CurrCurr\Mapper\ExchangeRatesMapper;
@@ -63,17 +62,7 @@ class EcbClient implements EcbClientInterface
     {
         try {
             if (null !== $this->cache) {
-                $now = new \DateTime();
-                $key = 'curr-curr-' . $now->format('YY-mm-dd');
-                if (null === $responseBody = $this->cache->get($key)) {
-                    $response = $this->performRequest();
-                    if ($this->cacheTimeInSeconds === self::CACHE_UNTIL_MIDNIGHT) {
-                        $this->cacheTimeInSeconds = strtotime('tomorrow') - time();
-                    }
-                    $this->cache->set($key, $response->getBody()->getContents(), $this->cacheTimeInSeconds);
-                } else {
-                    $response = new Response(200, [], $responseBody);
-                }
+                $response = $this->performCachedRequest();
             } else {
                 $response = $this->performRequest();
             }
@@ -86,7 +75,29 @@ class EcbClient implements EcbClientInterface
     }
 
     /**
-     * @return ResponseInterface
+     * @return Response
+     */
+    private function performCachedRequest()
+    {
+        $now = new \DateTime();
+        $key = 'curr-curr-' . $now->format('YY-mm-dd');
+        $responseBody = $this->cache->get($key);
+
+        if (null === $responseBody) {
+            $response = $this->performRequest();
+            if ($this->cacheTimeInSeconds === self::CACHE_UNTIL_MIDNIGHT) {
+                $this->cacheTimeInSeconds = strtotime('tomorrow') - time();
+            }
+            $this->cache->set($key, $response->getBody()->getContents(), $this->cacheTimeInSeconds);
+        } else {
+            $response = new Response(200, [], $responseBody);
+        }
+
+        return $response;
+    }
+
+    /**
+     * @return Response
      */
     private function performRequest()
     {
