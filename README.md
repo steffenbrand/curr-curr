@@ -65,6 +65,22 @@ try {
 }
 ```
 
+### Using PSR-16 SimpleCache
+
+CurrCurr does not provide its own SimpleCache implementation, however it does give you the possibility
+to inject any [PSR-16 compliant implementation](https://packagist.org/providers/psr/simple-cache-implementation) into the EcbClient.
+
+```php
+$cc = new CurrCurr(
+    new EcbClient(
+        EcbClient::DEFAULT_EXCHANGE_RATES_URL,
+        new OpCache(sys_get_temp_dir() . '/cache'), // MANDATORY: your cache implementation goes here, this example uses odan/cache
+        EcbClient::CACHE_UNTIL_MIDNIGHT, // OPTIONAL: provide time to live in seconds
+        EcbClient::DEFAULT_CACHE_KEY // OPTIONAL: key to use for caching
+    )
+);
+```
+
 ### Mocking webservice response for Unit Testing your own project
 
 CurrCurr allows you to inject your own implementation of the EcbClientInterface.
