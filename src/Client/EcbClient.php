@@ -7,24 +7,16 @@ use GuzzleHttp\Psr7\Response;
 use Psr\SimpleCache\CacheInterface;
 use SteffenBrand\CurrCurr\Exception\ExchangeRatesRequestFailedException;
 use SteffenBrand\CurrCurr\Mapper\ExchangeRatesMapper;
+use SteffenBrand\CurrCurr\Mapper\MapperInterface;
 use SteffenBrand\CurrCurr\Model\ExchangeRate;
 
 class EcbClient implements EcbClientInterface
 {
-    /**
-     * @const string
-     */
-    const DEFAULT_EXCHANGE_RATES_URL = 'https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml';
 
     /**
-     * @const int
+     * @var string
      */
-    const CACHE_UNTIL_MIDNIGHT = -1;
-
-    /**
-     * @var Client
-     */
-    private $client;
+    private $exchangeRatesUrl;
 
     /**
      * @var CacheInterface
@@ -37,20 +29,32 @@ class EcbClient implements EcbClientInterface
     private $cacheTimeInSeconds;
 
     /**
-     * @var string
+     * @var MapperInterface
      */
-    private $exchangeRatesUrl;
+    private $mapper;
+
+    /**
+     * @var Client
+     */
+    private $client;
 
     /**
      * @param string $exchangeRatesUrl
      * @param CacheInterface $cache
-     * @param int $cacheTimeInSeconds -1 to cache until midnight
+     * @param int $cacheTimeInSeconds
      */
-    public function __construct(string $exchangeRatesUrl = self::DEFAULT_EXCHANGE_RATES_URL, CacheInterface $cache = null, int $cacheTimeInSeconds = self::CACHE_UNTIL_MIDNIGHT)
+    public function __construct(string $exchangeRatesUrl = self::DEFAULT_EXCHANGE_RATES_URL,
+                                CacheInterface $cache = null,
+                                int $cacheTimeInSeconds = self::CACHE_UNTIL_MIDNIGHT,
+                                MapperInterface $mapper = null)
     {
         $this->exchangeRatesUrl = $exchangeRatesUrl;
         $this->cache = $cache;
         $this->cacheTimeInSeconds = $cacheTimeInSeconds;
+        if (null === $mapper) {
+            $mapper = new ExchangeRatesMapper();
+        }
+        $this->mapper = $mapper;
         $this->client = new Client();
     }
 
@@ -70,8 +74,7 @@ class EcbClient implements EcbClientInterface
             throw new ExchangeRatesRequestFailedException($e);
         }
 
-        $mapper = new ExchangeRatesMapper();
-        return $mapper->map($response);
+        return $this->mapper->map($response);
     }
 
     /**
