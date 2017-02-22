@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "ab6b16ffc450bf2a87be3e10405c3464",
+    "content-hash": "294c32eeaa8c3b148c9ad95be8781302",
     "packages": [
         {
             "name": "guzzlehttp/guzzle",
@@ -382,16 +382,16 @@
         },
         {
             "name": "odan/cache",
-            "version": "0.1.2",
+            "version": "v0.1.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/odan/cache.git",
-                "reference": "a874bb7605e8381465e42584edc9c3c053529eee"
+                "reference": "dccea1ee2321ca064503f4ecb75b0455d8196e44"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/odan/cache/zipball/a874bb7605e8381465e42584edc9c3c053529eee",
-                "reference": "a874bb7605e8381465e42584edc9c3c053529eee",
+                "url": "https://api.github.com/repos/odan/cache/zipball/dccea1ee2321ca064503f4ecb75b0455d8196e44",
+                "reference": "dccea1ee2321ca064503f4ecb75b0455d8196e44",
                 "shasum": ""
             },
             "require": {
@@ -431,7 +431,7 @@
                 "psr-16",
                 "psr16"
             ],
-            "time": "2017-02-12T20:48:35+00:00"
+            "time": "2017-02-22T09:11:03+00:00"
         },
         {
             "name": "phpdocumentor/reflection-common",

@@ -60,7 +60,7 @@
     },
     "require-dev": {
         "phpunit/phpunit": "^5.6",
-        "odan/cache": "0.1.2"
+        "odan/cache": "^0.1.5"
     },
     "autoload": {
         "psr-4": {
