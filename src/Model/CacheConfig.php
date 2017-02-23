@@ -39,8 +39,8 @@ class CacheConfig {
      * @param string $cacheKey Key to use for caching
      */
     public function __construct(CacheInterface $cache = null,
-                                $cacheTimeInSeconds = self::CACHE_UNTIL_MIDNIGHT,
-                                $cacheKey = self::DEFAULT_CACHE_KEY)
+                                int $cacheTimeInSeconds = self::CACHE_UNTIL_MIDNIGHT,
+                                string $cacheKey = self::DEFAULT_CACHE_KEY)
     {
         $this->cache = $cache;
         $this->cacheTimeInSeconds = $cacheTimeInSeconds;
