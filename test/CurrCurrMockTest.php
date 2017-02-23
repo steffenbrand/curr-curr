@@ -6,7 +6,7 @@ use PHPUnit_Framework_TestCase;
 use SteffenBrand\CurrCurr\CurrCurr;
 use SteffenBrand\CurrCurr\Model\Currency;
 use SteffenBrand\CurrCurr\Model\ExchangeRate;
-use SteffenBrand\CurrCurr\Client\EcbClientMock;
+use SteffenBrand\CurrCurr\Test\Client\EcbClientMock;
 
 /**
  * @runTestsInSeparateProcesses

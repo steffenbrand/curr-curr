@@ -1,13 +1,14 @@
 <?php
 
-namespace SteffenBrand\CurrCurr\Client;
+namespace SteffenBrand\CurrCurr\Test\Client;
 
 use GuzzleHttp\Psr7\Response;
 use Psr\Http\Message\ResponseInterface;
-use Psr\SimpleCache\CacheInterface;
+use SteffenBrand\CurrCurr\Client\EcbClientInterface;
 use SteffenBrand\CurrCurr\Exception\ExchangeRatesRequestFailedException;
 use SteffenBrand\CurrCurr\Mapper\ExchangeRatesMapper;
 use SteffenBrand\CurrCurr\Mapper\MapperInterface;
+use SteffenBrand\CurrCurr\Model\CacheConfig;
 use SteffenBrand\CurrCurr\Model\ExchangeRate;
 
 class EcbClientMock implements EcbClientInterface
@@ -40,15 +41,11 @@ class EcbClientMock implements EcbClientInterface
 
     /**
      * @param string $expectedResponse
-     * @param CacheInterface $cache
-     * @param int $cacheTimeInSeconds
-     * @param string $cacheKey
+     * @param CacheConfig $cacheConfig
      * @param MapperInterface $mapper
      */
     public function __construct(string $expectedResponse = self::VALID_RESPONSE,
-                                CacheInterface $cache = null,
-                                int $cacheTimeInSeconds = self::CACHE_UNTIL_MIDNIGHT,
-                                string $cacheKey = self::DEFAULT_CACHE_KEY,
+                                CacheConfig $cacheConfig = null,
                                 MapperInterface $mapper = null)
     {
         if (null === $mapper) {

@@ -6,6 +6,7 @@ use Odan\Cache\Simple\OpCache;
 use PHPUnit_Framework_TestCase;
 use SteffenBrand\CurrCurr\Client\EcbClient;
 use SteffenBrand\CurrCurr\CurrCurr;
+use SteffenBrand\CurrCurr\Model\CacheConfig;
 use SteffenBrand\CurrCurr\Model\Currency;
 
 /**
@@ -35,9 +36,11 @@ class CurrCurrSimpleCacheIntegrationTest extends PHPUnit_Framework_TestCase
         return new CurrCurr(
             new EcbClient(
                 EcbClient::DEFAULT_EXCHANGE_RATES_URL,
-                new OpCache(sys_get_temp_dir() . '/cache'),
-                EcbClient::CACHE_UNTIL_MIDNIGHT,
-                $cacheKey
+                new CacheConfig(
+                    new OpCache(sys_get_temp_dir() . '/cache'),
+                    CacheConfig::CACHE_UNTIL_MIDNIGHT,
+                    $cacheKey
+                )
             )
         );
     }

@@ -8,6 +8,7 @@ use Psr\SimpleCache\CacheInterface;
 use SteffenBrand\CurrCurr\Exception\ExchangeRatesRequestFailedException;
 use SteffenBrand\CurrCurr\Mapper\ExchangeRatesMapper;
 use SteffenBrand\CurrCurr\Mapper\MapperInterface;
+use SteffenBrand\CurrCurr\Model\CacheConfig;
 use SteffenBrand\CurrCurr\Model\ExchangeRate;
 
 class EcbClient implements EcbClientInterface
@@ -19,19 +20,9 @@ class EcbClient implements EcbClientInterface
     private $exchangeRatesUrl;
 
     /**
-     * @var CacheInterface
+     * @var CacheConfig
      */
-    private $cache;
-
-    /**
-     * @var int
-     */
-    private $cacheTimeInSeconds;
-
-    /**
-     * @var string
-     */
-    private $cacheKey;
+    private $cacheConfig;
 
     /**
      * @var MapperInterface
@@ -45,21 +36,15 @@ class EcbClient implements EcbClientInterface
 
     /**
      * @param string $exchangeRatesUrl
-     * @param CacheInterface $cache
-     * @param int $cacheTimeInSeconds
-     * @param string $cacheKey
+     * @param CacheConfig $cacheConfig
      * @param MapperInterface $mapper
      */
     public function __construct(string $exchangeRatesUrl = self::DEFAULT_EXCHANGE_RATES_URL,
-                                CacheInterface $cache = null,
-                                int $cacheTimeInSeconds = self::CACHE_UNTIL_MIDNIGHT,
-                                string $cacheKey = self::DEFAULT_CACHE_KEY,
+                                CacheConfig $cacheConfig = null,
                                 MapperInterface $mapper = null)
     {
         $this->exchangeRatesUrl = $exchangeRatesUrl;
-        $this->cache = $cache;
-        $this->cacheTimeInSeconds = $cacheTimeInSeconds;
-        $this->cacheKey = $cacheKey;
+        $this->cacheConfig = $cacheConfig;
         if (null === $mapper) {
             $mapper = new ExchangeRatesMapper();
         }
@@ -74,7 +59,7 @@ class EcbClient implements EcbClientInterface
     public function getExchangeRates(): array
     {
         try {
-            if (null !== $this->cache) {
+            if (null !== $this->cacheConfig && $this->cacheConfig->getCache() instanceof CacheInterface) {
                 $response = $this->performCachedRequest();
             } else {
                 $response = $this->performRequest();
@@ -91,14 +76,14 @@ class EcbClient implements EcbClientInterface
      */
     private function performCachedRequest()
     {
-        $responseBody = $this->cache->get($this->cacheKey, null);
+        $responseBody = $this->cacheConfig->getCache()->get($this->cacheConfig->getCacheKey(), null);
         if (null === $responseBody) {
             $response = $this->performRequest();
-            if ($this->cacheTimeInSeconds === self::CACHE_UNTIL_MIDNIGHT) {
-                $this->cacheTimeInSeconds = strtotime('tomorrow') - time();
+            if ($this->cacheConfig->getCacheTimeInSeconds() === CacheConfig::CACHE_UNTIL_MIDNIGHT) {
+                $this->cacheConfig->setCacheTimeInSeconds(strtotime('tomorrow') - time());
             }
             $responseBody = $response->getBody()->getContents();
-            $this->cache->set($this->cacheKey, $responseBody, $this->cacheTimeInSeconds);
+            $this->cacheConfig->getCache()->set($this->cacheConfig->getCacheKey(), $responseBody, $this->cacheConfig->getCacheTimeInSeconds());
         }
 
         $response = new Response(200, [], $responseBody);
