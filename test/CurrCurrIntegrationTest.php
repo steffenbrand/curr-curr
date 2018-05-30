@@ -1,8 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace SteffenBrand\CurrCurr\Test;
 
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 use SteffenBrand\CurrCurr\Client\EcbClient;
 use SteffenBrand\CurrCurr\CurrCurr;
 use SteffenBrand\CurrCurr\Model\Currency;
@@ -11,9 +13,8 @@ use SteffenBrand\CurrCurr\Model\ExchangeRate;
 /**
  * @runTestsInSeparateProcesses
  */
-class CurrCurrIntegrationTest extends PHPUnit_Framework_TestCase
+class CurrCurrIntegrationTest extends TestCase
 {
-
     public function testIsInstantiable()
     {
         $this->assertInstanceOf(CurrCurr::class, $this->getInstance());
@@ -43,7 +44,7 @@ class CurrCurrIntegrationTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException SteffenBrand\CurrCurr\Exception\CurrencyNotSupportedException
+     * @expectedException \SteffenBrand\CurrCurr\Exception\CurrencyNotSupportedException
      * @expectedExceptionMessage The currency you are requesting the exchange rates for is not supported.
      */
     public function testGetExchangeRateByCurrencyThrowsCurrencyNotSupportedException()
@@ -53,7 +54,7 @@ class CurrCurrIntegrationTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException SteffenBrand\CurrCurr\Exception\ExchangeRatesRequestFailedException
+     * @expectedException \SteffenBrand\CurrCurr\Exception\ExchangeRatesRequestFailedException
      * @expectedExceptionMessage Request for ECBs exchange rates failed.
      */
     public function testGetExchangeRatesThrowsExchangeRatesRequestFailedException()
@@ -63,7 +64,7 @@ class CurrCurrIntegrationTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException SteffenBrand\CurrCurr\Exception\ExchangeRatesMappingFailedException
+     * @expectedException \SteffenBrand\CurrCurr\Exception\ExchangeRatesMappingFailedException
      * @expectedExceptionMessage Could not successfully parse and map exchange rates.
      */
     public function testGetExchangeRatesThrowsExchangeRatesMappingFailedException()
@@ -83,5 +84,4 @@ class CurrCurrIntegrationTest extends PHPUnit_Framework_TestCase
         }
         return new CurrCurr(new EcbClient($exchangeRatesUrl));
     }
-
 }

@@ -1,10 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace SteffenBrand\CurrCurr\Model;
 
+/**
+ * Class ExchangeRate
+ * @package SteffenBrand\CurrCurr\Model
+ */
 class ExchangeRate
 {
-
     /**
      * @var \DateTime
      */
@@ -22,6 +27,7 @@ class ExchangeRate
 
     /**
      * ExchangeRate constructor.
+     *
      * @param string $currency
      * @param float $rate
      * @param \DateTime $date
@@ -56,5 +62,4 @@ class ExchangeRate
     {
         return $this->date;
     }
-
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace SteffenBrand\CurrCurr\Mapper;
 
 use Psr\Http\Message\ResponseInterface;
@@ -7,28 +9,34 @@ use SimpleXMLElement;
 use SteffenBrand\CurrCurr\Exception\ExchangeRatesMappingFailedException;
 use SteffenBrand\CurrCurr\Model\ExchangeRate;
 
+/**
+ * Class ExchangeRatesMapper
+ * @package SteffenBrand\CurrCurr\Mapper
+ */
 class ExchangeRatesMapper implements MapperInterface
 {
-
     /**
+     * Map exchange rates response.
+     *
      * @param ResponseInterface $response
-     * @throws ExchangeRatesMappingFailedException
      * @return ExchangeRate[]
+     * @throws \SteffenBrand\CurrCurr\Exception\ExchangeRatesMappingFailedException
      */
     public function map(ResponseInterface $response): array
     {
-        $body = $response->getBody()->getContents();
+        $body = (string) $response->getBody();
         $xml = $this->parseBody($body);
         $date = $this->parseDate($xml);
-        $exchangeRates = $this->parseExchangeRates($xml, $date);
 
-        return $exchangeRates;
+        return $this->parseExchangeRates($xml, $date);
     }
 
     /**
+     * Parse body.
+     *
      * @param string $body
-     * @throws ExchangeRatesMappingFailedException
      * @return SimpleXMLElement
+     * @throws \SteffenBrand\CurrCurr\Exception\ExchangeRatesMappingFailedException
      */
     private function parseBody(string $body): SimpleXMLElement
     {
@@ -45,13 +53,15 @@ class ExchangeRatesMapper implements MapperInterface
     }
 
     /**
+     * Parse date.
+     *
      * @param SimpleXMLElement $xml
-     * @throws ExchangeRatesMappingFailedException
      * @return \DateTime
+     * @throws \SteffenBrand\CurrCurr\Exception\ExchangeRatesMappingFailedException
      */
     private function parseDate(SimpleXMLElement $xml): \DateTime
     {
-        $date = \DateTime::createFromFormat('Y-m-d', $xml->Cube->Cube['time']);
+        $date = \DateTime::createFromFormat('Y-m-d', (string) $xml->Cube->Cube['time']);
         if (false !== $date) {
             $date->setTime(0, 0);
             return $date;
@@ -61,6 +71,8 @@ class ExchangeRatesMapper implements MapperInterface
     }
 
     /**
+     * Parse exchange rates.
+     *
      * @param SimpleXMLElement $xml
      * @param \DateTime $date
      * @return array
@@ -70,8 +82,8 @@ class ExchangeRatesMapper implements MapperInterface
         $exchangeRates = [];
 
         foreach ($xml->Cube->Cube->Cube as $item) {
-            $currency = strval($item['currency']);
-            $rate = floatval($item['rate']);
+            $currency = (string) $item['currency'];
+            $rate = (float) $item['rate'];
             $exchangeRates[$currency] = new ExchangeRate(
                 $currency,
                 $rate,
@@ -81,5 +93,4 @@ class ExchangeRatesMapper implements MapperInterface
 
         return $exchangeRates;
     }
-
 }

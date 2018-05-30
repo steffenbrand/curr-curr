@@ -1,9 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace SteffenBrand\CurrCurr\Test;
 
 use Odan\Cache\Simple\OpCache;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 use SteffenBrand\CurrCurr\Client\EcbClient;
 use SteffenBrand\CurrCurr\CurrCurr;
 use SteffenBrand\CurrCurr\Model\CacheConfig;
@@ -12,9 +14,8 @@ use SteffenBrand\CurrCurr\Model\Currency;
 /**
  * @runTestsInSeparateProcesses
  */
-class CurrCurrSimpleCacheIntegrationTest extends PHPUnit_Framework_TestCase
+class CurrCurrSimpleCacheIntegrationTest extends TestCase
 {
-
     public function testIsInstantiable()
     {
         $this->assertInstanceOf(CurrCurr::class, $this->getInstance(uniqid()));
@@ -22,7 +23,7 @@ class CurrCurrSimpleCacheIntegrationTest extends PHPUnit_Framework_TestCase
 
     public function testGetExchangeRatesMidnightCache()
     {
-        $cc = $this->getInstance(uniqid());
+        $cc = $this->getInstance(uniqid('test', false));
         $this->getRates($cc);
         $this->getRates($cc);
     }
@@ -58,5 +59,4 @@ class CurrCurrSimpleCacheIntegrationTest extends PHPUnit_Framework_TestCase
         $this->assertArrayHasKey(Currency::USD, $exchangeRates, 'exchange rates must contain USD');
         $this->assertInstanceOf(\DateTime::class, $exchangeRates[Currency::USD]->getDate(), 'date must be instance of DateTime');
     }
-
 }

@@ -1,43 +1,48 @@
 <?php
 
+declare(strict_types=1);
+
 namespace SteffenBrand\CurrCurr\Model;
 
-class Currency
+/**
+ * Class Currency
+ * @package SteffenBrand\CurrCurr\Model
+ */
+abstract class Currency
 {
+    public const USD = 'USD';
+    public const JPY = 'JPY';
+    public const BGN = 'BGN';
+    public const CZK = 'CZK';
+    public const DKK = 'DKK';
+    public const GBP = 'GBP';
+    public const HUF = 'HUF';
+    public const PLN = 'PLN';
+    public const RON = 'RON';
+    public const SEK = 'SEK';
+    public const CHF = 'CHF';
+    public const NOK = 'NOK';
+    public const HRK = 'HRK';
+    public const RUB = 'RUB';
+    public const TRY = 'TRY';
+    public const AUD = 'AUD';
+    public const BRL = 'BRL';
+    public const CAD = 'CAD';
+    public const CNY = 'CNY';
+    public const HKD = 'HKD';
+    public const IDR = 'IDR';
+    public const ILS = 'ILS';
+    public const INR = 'INR';
+    public const KRW = 'KRW';
+    public const MXN = 'MXN';
+    public const MYR = 'MYR';
+    public const NZD = 'NZD';
+    public const PHP = 'PHP';
+    public const SGD = 'SGD';
+    public const THB = 'THB';
+    public const ZAR = 'ZAR';
 
-    const USD = 'USD';
-    const JPY = 'JPY';
-    const BGN = 'BGN';
-    const CZK = 'CZK';
-    const DKK = 'DKK';
-    const GBP = 'GBP';
-    const HUF = 'HUF';
-    const PLN = 'PLN';
-    const RON = 'RON';
-    const SEK = 'SEK';
-    const CHF = 'CHF';
-    const NOK = 'NOK';
-    const HRK = 'HRK';
-    const RUB = 'RUB';
-    const TRY = 'TRY';
-    const AUD = 'AUD';
-    const BRL = 'BRL';
-    const CAD = 'CAD';
-    const CNY = 'CNY';
-    const HKD = 'HKD';
-    const IDR = 'IDR';
-    const ILS = 'ILS';
-    const INR = 'INR';
-    const KRW = 'KRW';
-    const MXN = 'MXN';
-    const MYR = 'MYR';
-    const NZD = 'NZD';
-    const PHP = 'PHP';
-    const SGD = 'SGD';
-    const THB = 'THB';
-    const ZAR = 'ZAR';
-
-    const ALLOWED_CURRENCIES = [
+    public const ALLOWED_CURRENCIES = [
         self::USD,
         self::JPY,
         self::BGN,
@@ -70,5 +75,4 @@ class Currency
         self::THB,
         self::ZAR
     ];
-
 }

@@ -1,20 +1,26 @@
 <?php
 
+declare(strict_types=1);
+
 namespace SteffenBrand\CurrCurr\Model;
 
 use Psr\SimpleCache\CacheInterface;
 
-class CacheConfig {
-
+/**
+ * Class CacheConfig
+ * @package SteffenBrand\CurrCurr\Model
+ */
+class CacheConfig
+{
     /**
      * @const int
      */
-    const CACHE_UNTIL_MIDNIGHT = -1;
+    public const CACHE_UNTIL_MIDNIGHT = -1;
 
     /**
      * @const string
      */
-    const DEFAULT_CACHE_KEY = 'curr-curr-cache';
+    public const DEFAULT_CACHE_KEY = 'curr-curr-cache';
 
     /**
      * @var CacheInterface
@@ -38,9 +44,10 @@ class CacheConfig {
      * @param int $cacheTimeInSeconds TTL in seconds
      * @param string $cacheKey Key to use for caching
      */
-    public function __construct(CacheInterface $cache = null,
-                                int $cacheTimeInSeconds = self::CACHE_UNTIL_MIDNIGHT,
-                                string $cacheKey = self::DEFAULT_CACHE_KEY)
+    public function __construct(
+        CacheInterface $cache = null,
+        int $cacheTimeInSeconds = self::CACHE_UNTIL_MIDNIGHT,
+        string $cacheKey = self::DEFAULT_CACHE_KEY)
     {
         $this->cache = $cache;
         $this->cacheTimeInSeconds = $cacheTimeInSeconds;
@@ -94,5 +101,4 @@ class CacheConfig {
     {
         $this->cacheKey = $cacheKey;
     }
-
 }

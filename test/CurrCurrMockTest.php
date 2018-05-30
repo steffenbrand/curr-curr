@@ -1,8 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace SteffenBrand\CurrCurr\Test;
 
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 use SteffenBrand\CurrCurr\CurrCurr;
 use SteffenBrand\CurrCurr\Model\Currency;
 use SteffenBrand\CurrCurr\Model\ExchangeRate;
@@ -11,9 +13,8 @@ use SteffenBrand\CurrCurr\Test\Client\EcbClientMock;
 /**
  * @runTestsInSeparateProcesses
  */
-class CurrCurrMockTest extends PHPUnit_Framework_TestCase
+class CurrCurrMockTest extends TestCase
 {
-
     public function testIsInstantiable()
     {
         $this->assertInstanceOf(CurrCurr::class, $this->getInstance(EcbClientMock::VALID_RESPONSE));
@@ -49,7 +50,7 @@ class CurrCurrMockTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException SteffenBrand\CurrCurr\Exception\CurrencyNotSupportedException
+     * @expectedException \SteffenBrand\CurrCurr\Exception\CurrencyNotSupportedException
      * @expectedExceptionMessage The currency you are requesting the exchange rates for is not supported.
      */
     public function testSomeStringThrowsCurrencyNotSupportedException()
@@ -59,7 +60,7 @@ class CurrCurrMockTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException SteffenBrand\CurrCurr\Exception\CurrencyNotSupportedException
+     * @expectedException \SteffenBrand\CurrCurr\Exception\CurrencyNotSupportedException
      * @expectedExceptionMessage The currency you are requesting the exchange rates for is not supported.
      */
     public function testMissingUsdThrowsCurrencyNotSupportedException()
@@ -69,7 +70,7 @@ class CurrCurrMockTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException SteffenBrand\CurrCurr\Exception\ExchangeRatesMappingFailedException
+     * @expectedException \SteffenBrand\CurrCurr\Exception\ExchangeRatesMappingFailedException
      * @expectedExceptionMessage Could not successfully parse and map exchange rates.
      */
     public function testMissingDateThrowsExchangeRatesMappingFailedException()
@@ -86,5 +87,4 @@ class CurrCurrMockTest extends PHPUnit_Framework_TestCase
     {
         return new CurrCurr(new EcbClientMock($expectedResponse));
     }
-
 }

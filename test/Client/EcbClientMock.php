@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace SteffenBrand\CurrCurr\Test\Client;
 
 use GuzzleHttp\Psr7\Response;
@@ -17,17 +19,17 @@ class EcbClientMock implements EcbClientInterface
     /**
      * @const string
      */
-    const VALID_RESPONSE = 'ValidResponse';
+    public const VALID_RESPONSE = 'ValidResponse';
 
     /**
      * @const string
      */
-    const USD_MISSING_RESPONSE = 'UsdMissingResponse';
+    public const USD_MISSING_RESPONSE = 'UsdMissingResponse';
 
     /**
      * @const string
      */
-    const DATE_MISSING_RESPONSE = 'DateMissingResponse';
+    public const DATE_MISSING_RESPONSE = 'DateMissingResponse';
 
     /**
      * @var ResponseInterface
@@ -40,13 +42,16 @@ class EcbClientMock implements EcbClientInterface
     private $mapper;
 
     /**
+     * EcbClientMock constructor.
+     *
      * @param string $expectedResponse
-     * @param CacheConfig $cacheConfig
-     * @param MapperInterface $mapper
+     * @param CacheConfig|null $cacheConfig
+     * @param MapperInterface|null $mapper
      */
-    public function __construct(string $expectedResponse = self::VALID_RESPONSE,
-                                CacheConfig $cacheConfig = null,
-                                MapperInterface $mapper = null)
+    public function __construct(
+        string $expectedResponse = self::VALID_RESPONSE,
+        CacheConfig $cacheConfig = null,
+        MapperInterface $mapper = null)
     {
         if (null === $mapper) {
             $mapper = new ExchangeRatesMapper();
@@ -67,6 +72,8 @@ class EcbClientMock implements EcbClientInterface
     }
 
     /**
+     * Get exchange rates.
+     *
      * @throws ExchangeRatesRequestFailedException
      * @return ExchangeRate[]
      */
@@ -76,10 +83,12 @@ class EcbClientMock implements EcbClientInterface
     }
 
     /**
+     * Create response from file.
+     *
      * @param string $file
-     * @return Response
+     * @return ResponseInterface
      */
-    private function createResponseFromFile(string $file): Response
+    private function createResponseFromFile(string $file): ResponseInterface
     {
         return new Response(200, [], file_get_contents($file));
     }

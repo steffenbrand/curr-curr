@@ -1,9 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace SteffenBrand\CurrCurr\Client;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Response;
+use Psr\Http\Message\ResponseInterface;
 use Psr\SimpleCache\CacheInterface;
 use SteffenBrand\CurrCurr\Exception\ExchangeRatesRequestFailedException;
 use SteffenBrand\CurrCurr\Mapper\ExchangeRatesMapper;
@@ -11,9 +14,12 @@ use SteffenBrand\CurrCurr\Mapper\MapperInterface;
 use SteffenBrand\CurrCurr\Model\CacheConfig;
 use SteffenBrand\CurrCurr\Model\ExchangeRate;
 
+/**
+ * Class EcbClient
+ * @package SteffenBrand\CurrCurr\Client
+ */
 class EcbClient implements EcbClientInterface
 {
-
     /**
      * @var string
      */
@@ -35,13 +41,16 @@ class EcbClient implements EcbClientInterface
     private $client;
 
     /**
+     * EcbClient constructor.
+     *
      * @param string $exchangeRatesUrl
-     * @param CacheConfig $cacheConfig
-     * @param MapperInterface $mapper
+     * @param CacheConfig|null $cacheConfig
+     * @param MapperInterface|null $mapper
      */
-    public function __construct(string $exchangeRatesUrl = self::DEFAULT_EXCHANGE_RATES_URL,
-                                CacheConfig $cacheConfig = null,
-                                MapperInterface $mapper = null)
+    public function __construct(
+        string $exchangeRatesUrl = self::DEFAULT_EXCHANGE_RATES_URL,
+        CacheConfig $cacheConfig = null,
+        MapperInterface $mapper = null)
     {
         $this->exchangeRatesUrl = $exchangeRatesUrl;
         $this->cacheConfig = $cacheConfig;
@@ -53,8 +62,12 @@ class EcbClient implements EcbClientInterface
     }
 
     /**
-     * @throws ExchangeRatesRequestFailedException
+     * Get exchange rates.
+     *
      * @return ExchangeRate[]
+     * @throws \SteffenBrand\CurrCurr\Exception\ExchangeRatesRequestFailedException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \Psr\SimpleCache\InvalidArgumentException
      */
     public function getExchangeRates(): array
     {
@@ -72,32 +85,45 @@ class EcbClient implements EcbClientInterface
     }
 
     /**
-     * @return Response
+     * Perform cached request.
+     *
+     * @return \Psr\Http\Message\ResponseInterface
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \Psr\SimpleCache\InvalidArgumentException
      */
-    private function performCachedRequest()
+    private function performCachedRequest(): ResponseInterface
     {
         $responseBody = $this->cacheConfig->getCache()->get($this->cacheConfig->getCacheKey(), null);
-        if (null === $responseBody) {
-            $response = $this->performRequest();
-            if ($this->cacheConfig->getCacheTimeInSeconds() === CacheConfig::CACHE_UNTIL_MIDNIGHT) {
-                $this->cacheConfig->setCacheTimeInSeconds(strtotime('tomorrow') - time());
-            }
-            $responseBody = $response->getBody()->getContents();
-            $this->cacheConfig->getCache()->set($this->cacheConfig->getCacheKey(), $responseBody, $this->cacheConfig->getCacheTimeInSeconds());
+        if (null !== $responseBody) {
+            return new Response(200, [], $responseBody);
         }
 
-        $response = new Response(200, [], $responseBody);
+        $response = $this->performRequest();
+
+        if ($this->cacheConfig->getCacheTimeInSeconds() === CacheConfig::CACHE_UNTIL_MIDNIGHT) {
+            $this->cacheConfig->setCacheTimeInSeconds(strtotime('tomorrow') - time());
+        }
+
+        $responseBody = (string) $response->getBody();
+
+        $this->cacheConfig->getCache()->set(
+            $this->cacheConfig->getCacheKey(),
+            $responseBody,
+            $this->cacheConfig->getCacheTimeInSeconds()
+        );
 
         return $response;
     }
 
     /**
-     * @return Response
+     * Perform request.
+     *
+     * @return \Psr\Http\Message\ResponseInterface
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    private function performRequest()
+    private function performRequest(): ResponseInterface
     {
-        $response = $this->client->request('GET', $this->exchangeRatesUrl);
-        return $response;
+        return $this->client->request('GET', $this->exchangeRatesUrl);
     }
 
 }
