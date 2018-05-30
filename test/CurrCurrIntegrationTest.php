@@ -15,12 +15,12 @@ use SteffenBrand\CurrCurr\Model\ExchangeRate;
  */
 class CurrCurrIntegrationTest extends TestCase
 {
-    public function testIsInstantiable()
+    public function testIsInstantiable(): void
     {
         $this->assertInstanceOf(CurrCurr::class, $this->getInstance());
     }
 
-    public function testGetExchangeRates()
+    public function testGetExchangeRates(): void
     {
         $cc = $this->getInstance();
         $exchangeRates = $cc->getExchangeRates();
@@ -31,7 +31,7 @@ class CurrCurrIntegrationTest extends TestCase
         $this->assertInstanceOf(\DateTime::class, $exchangeRates[Currency::USD]->getDate(), 'date must be instance of DateTime');
     }
 
-    public function testGetExchangeRateByCurrency()
+    public function testGetExchangeRateByCurrency(): void
     {
         $cc = $this->getInstance();
         $exchangeRate = $cc->getExchangeRateByCurrency(Currency::USD);
@@ -47,7 +47,7 @@ class CurrCurrIntegrationTest extends TestCase
      * @expectedException \SteffenBrand\CurrCurr\Exception\CurrencyNotSupportedException
      * @expectedExceptionMessage The currency you are requesting the exchange rates for is not supported.
      */
-    public function testGetExchangeRateByCurrencyThrowsCurrencyNotSupportedException()
+    public function testGetExchangeRateByCurrencyThrowsCurrencyNotSupportedException(): void
     {
         $cc = $this->getInstance();
         $cc->getExchangeRateByCurrency('SOMESTRING');
@@ -57,7 +57,7 @@ class CurrCurrIntegrationTest extends TestCase
      * @expectedException \SteffenBrand\CurrCurr\Exception\ExchangeRatesRequestFailedException
      * @expectedExceptionMessage Request for ECBs exchange rates failed.
      */
-    public function testGetExchangeRatesThrowsExchangeRatesRequestFailedException()
+    public function testGetExchangeRatesThrowsExchangeRatesRequestFailedException(): void
     {
         $cc = $this->getInstance('http://httpstat.us/404');
         $cc->getExchangeRates();
@@ -67,7 +67,7 @@ class CurrCurrIntegrationTest extends TestCase
      * @expectedException \SteffenBrand\CurrCurr\Exception\ExchangeRatesMappingFailedException
      * @expectedExceptionMessage Could not successfully parse and map exchange rates.
      */
-    public function testGetExchangeRatesThrowsExchangeRatesMappingFailedException()
+    public function testGetExchangeRatesThrowsExchangeRatesMappingFailedException(): void
     {
         $cc = $this->getInstance('http://httpstat.us/200');
         $cc->getExchangeRates();

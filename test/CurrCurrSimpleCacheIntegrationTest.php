@@ -16,12 +16,12 @@ use SteffenBrand\CurrCurr\Model\Currency;
  */
 class CurrCurrSimpleCacheIntegrationTest extends TestCase
 {
-    public function testIsInstantiable()
+    public function testIsInstantiable(): void
     {
-        $this->assertInstanceOf(CurrCurr::class, $this->getInstance(uniqid()));
+        $this->assertInstanceOf(CurrCurr::class, $this->getInstance(uniqid('test', false)));
     }
 
-    public function testGetExchangeRatesMidnightCache()
+    public function testGetExchangeRatesMidnightCache(): void
     {
         $cc = $this->getInstance(uniqid('test', false));
         $this->getRates($cc);
@@ -49,9 +49,8 @@ class CurrCurrSimpleCacheIntegrationTest extends TestCase
     /**
      * @param CurrCurr $cc
      */
-    private function getRates(CurrCurr $cc)
+    private function getRates(CurrCurr $cc): void
     {
-
         $exchangeRates = $cc->getExchangeRates();
 
         $this->assertNotNull($exchangeRates, 'exchange rates must not be null');

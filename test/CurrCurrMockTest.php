@@ -15,12 +15,12 @@ use SteffenBrand\CurrCurr\Test\Client\EcbClientMock;
  */
 class CurrCurrMockTest extends TestCase
 {
-    public function testIsInstantiable()
+    public function testIsInstantiable(): void
     {
         $this->assertInstanceOf(CurrCurr::class, $this->getInstance(EcbClientMock::VALID_RESPONSE));
     }
 
-    public function testGetExchangeRates()
+    public function testGetExchangeRates(): void
     {
         $cc = $this->getInstance(EcbClientMock::VALID_RESPONSE);
         $exchangeRates = $cc->getExchangeRates();
@@ -34,7 +34,7 @@ class CurrCurrMockTest extends TestCase
         $this->assertEquals(1.0994, $exchangeRates[Currency::USD]->getRate(), 'Rate must be 1.0994');
     }
 
-    public function testGetExchangeRateByCurrency()
+    public function testGetExchangeRateByCurrency(): void
     {
         $cc = $this->getInstance(EcbClientMock::VALID_RESPONSE);
         $exchangeRate = $cc->getExchangeRateByCurrency(Currency::USD);
@@ -53,7 +53,7 @@ class CurrCurrMockTest extends TestCase
      * @expectedException \SteffenBrand\CurrCurr\Exception\CurrencyNotSupportedException
      * @expectedExceptionMessage The currency you are requesting the exchange rates for is not supported.
      */
-    public function testSomeStringThrowsCurrencyNotSupportedException()
+    public function testSomeStringThrowsCurrencyNotSupportedException(): void
     {
         $cc = $this->getInstance(EcbClientMock::VALID_RESPONSE);
         $cc->getExchangeRateByCurrency('SOMESTRING');
@@ -63,7 +63,7 @@ class CurrCurrMockTest extends TestCase
      * @expectedException \SteffenBrand\CurrCurr\Exception\CurrencyNotSupportedException
      * @expectedExceptionMessage The currency you are requesting the exchange rates for is not supported.
      */
-    public function testMissingUsdThrowsCurrencyNotSupportedException()
+    public function testMissingUsdThrowsCurrencyNotSupportedException(): void
     {
         $cc = $this->getInstance(EcbClientMock::USD_MISSING_RESPONSE);
         $cc->getExchangeRateByCurrency(Currency::USD);
@@ -73,7 +73,7 @@ class CurrCurrMockTest extends TestCase
      * @expectedException \SteffenBrand\CurrCurr\Exception\ExchangeRatesMappingFailedException
      * @expectedExceptionMessage Could not successfully parse and map exchange rates.
      */
-    public function testMissingDateThrowsExchangeRatesMappingFailedException()
+    public function testMissingDateThrowsExchangeRatesMappingFailedException(): void
     {
         $cc = $this->getInstance(EcbClientMock::DATE_MISSING_RESPONSE);
         $cc->getExchangeRates();
