@@ -49,32 +49,29 @@ class CurrCurrMockTest extends TestCase
         $this->assertEquals(1.0994, $exchangeRate->getRate(), 'Rate must be 1.0994');
     }
 
-    /**
-     * @expectedException \SteffenBrand\CurrCurr\Exception\CurrencyNotSupportedException
-     * @expectedExceptionMessage The currency you are requesting the exchange rates for is not supported.
-     */
     public function testSomeStringThrowsCurrencyNotSupportedException(): void
     {
+        $this->expectException(\SteffenBrand\CurrCurr\Exception\CurrencyNotSupportedException::class);
+        $this->expectExceptionMessage('The currency you are requesting the exchange rates for is not supported.');
+
         $cc = $this->getInstance(EcbClientMock::VALID_RESPONSE);
         $cc->getExchangeRateByCurrency('SOMESTRING');
     }
 
-    /**
-     * @expectedException \SteffenBrand\CurrCurr\Exception\CurrencyNotSupportedException
-     * @expectedExceptionMessage The currency you are requesting the exchange rates for is not supported.
-     */
     public function testMissingUsdThrowsCurrencyNotSupportedException(): void
     {
+        $this->expectException(\SteffenBrand\CurrCurr\Exception\CurrencyNotSupportedException::class);
+        $this->expectExceptionMessage('The currency you are requesting the exchange rates for is not supported.');
         $cc = $this->getInstance(EcbClientMock::USD_MISSING_RESPONSE);
         $cc->getExchangeRateByCurrency(Currency::USD);
     }
 
     /**
-     * @expectedException \SteffenBrand\CurrCurr\Exception\ExchangeRatesMappingFailedException
-     * @expectedExceptionMessage Could not successfully parse and map exchange rates.
      */
     public function testMissingDateThrowsExchangeRatesMappingFailedException(): void
     {
+        $this->expectException(\SteffenBrand\CurrCurr\Exception\ExchangeRatesMappingFailedException::class);
+        $this->expectExceptionMessage('Could not successfully parse and map exchange rates.');
         $cc = $this->getInstance(EcbClientMock::DATE_MISSING_RESPONSE);
         $cc->getExchangeRates();
     }

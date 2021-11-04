@@ -43,32 +43,29 @@ class CurrCurrIntegrationTest extends TestCase
         $this->assertNotEmpty($exchangeRate->getCurrency(), 'currency must not be empty');
     }
 
-    /**
-     * @expectedException \SteffenBrand\CurrCurr\Exception\CurrencyNotSupportedException
-     * @expectedExceptionMessage The currency you are requesting the exchange rates for is not supported.
-     */
     public function testGetExchangeRateByCurrencyThrowsCurrencyNotSupportedException(): void
     {
+        $this->expectException(\SteffenBrand\CurrCurr\Exception\CurrencyNotSupportedException::class);
+        $this->expectExceptionMessage('The currency you are requesting the exchange rates for is not supported.');
+
         $cc = $this->getInstance();
         $cc->getExchangeRateByCurrency('SOMESTRING');
     }
 
-    /**
-     * @expectedException \SteffenBrand\CurrCurr\Exception\ExchangeRatesRequestFailedException
-     * @expectedExceptionMessage Request for ECBs exchange rates failed.
-     */
     public function testGetExchangeRatesThrowsExchangeRatesRequestFailedException(): void
     {
+        $this->expectException(\SteffenBrand\CurrCurr\Exception\ExchangeRatesRequestFailedException::class);
+        $this->expectExceptionMessage('Request for ECBs exchange rates failed.');
+
         $cc = $this->getInstance('http://httpstat.us/404');
         $cc->getExchangeRates();
     }
 
-    /**
-     * @expectedException \SteffenBrand\CurrCurr\Exception\ExchangeRatesMappingFailedException
-     * @expectedExceptionMessage Could not successfully parse and map exchange rates.
-     */
     public function testGetExchangeRatesThrowsExchangeRatesMappingFailedException(): void
     {
+        $this->expectException(\SteffenBrand\CurrCurr\Exception\ExchangeRatesMappingFailedException::class);
+        $this->expectExceptionMessage('Could not successfully parse and map exchange rates.');
+
         $cc = $this->getInstance('http://httpstat.us/200');
         $cc->getExchangeRates();
     }
